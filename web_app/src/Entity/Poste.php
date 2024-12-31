@@ -62,11 +62,25 @@ class Poste
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
+    /**
+     * @var Collection<int, DeveloperFavPoste>
+     */
+    #[ORM\OneToMany(targetEntity: DeveloperFavPoste::class, mappedBy: 'poste', orphanRemoval: true)]
+    private Collection $developerFavPostes;
+
+    /**
+     * @var Collection<int, DeveloperVisitePoste>
+     */
+    #[ORM\OneToMany(targetEntity: DeveloperVisitePoste::class, mappedBy: 'poste', orphanRemoval: true)]
+    private Collection $developerVisitePostes;
+
     public function __construct()
     {
         // $this->developer_has_poste = new ArrayCollection();
         // $this->developer_visite_poste = new ArrayCollection();
         $this->skills = new ArrayCollection();
+        $this->developerFavPostes = new ArrayCollection();
+        $this->developerVisitePostes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -260,6 +274,66 @@ class Poste
     public function setUpdatedAt(\DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DeveloperFavPoste>
+     */
+    public function getDeveloperFavPostes(): Collection
+    {
+        return $this->developerFavPostes;
+    }
+
+    public function addDeveloperFavPoste(DeveloperFavPoste $developerFavPoste): static
+    {
+        if (!$this->developerFavPostes->contains($developerFavPoste)) {
+            $this->developerFavPostes->add($developerFavPoste);
+            $developerFavPoste->setPoste($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeveloperFavPoste(DeveloperFavPoste $developerFavPoste): static
+    {
+        if ($this->developerFavPostes->removeElement($developerFavPoste)) {
+            // set the owning side to null (unless already changed)
+            if ($developerFavPoste->getPoste() === $this) {
+                $developerFavPoste->setPoste(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DeveloperVisitePoste>
+     */
+    public function getDeveloperVisitePostes(): Collection
+    {
+        return $this->developerVisitePostes;
+    }
+
+    public function addDeveloperVisitePoste(DeveloperVisitePoste $developerVisitePoste): static
+    {
+        if (!$this->developerVisitePostes->contains($developerVisitePoste)) {
+            $this->developerVisitePostes->add($developerVisitePoste);
+            $developerVisitePoste->setPoste($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeveloperVisitePoste(DeveloperVisitePoste $developerVisitePoste): static
+    {
+        if ($this->developerVisitePostes->removeElement($developerVisitePoste)) {
+            // set the owning side to null (unless already changed)
+            if ($developerVisitePoste->getPoste() === $this) {
+                $developerVisitePoste->setPoste(null);
+            }
+        }
 
         return $this;
     }

@@ -77,6 +77,30 @@ class Developer
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'evaluation')]
     private Collection $dev_give_notes;
 
+    /**
+     * @var Collection<int, DeveloperFavPoste>
+     */
+    #[ORM\OneToMany(targetEntity: DeveloperFavPoste::class, mappedBy: 'developer', orphanRemoval: true)]
+    private Collection $developerFavPostes;
+
+    /**
+     * @var Collection<int, DeveloperVisitePoste>
+     */
+    #[ORM\OneToMany(targetEntity: DeveloperVisitePoste::class, mappedBy: 'developer', orphanRemoval: true)]
+    private Collection $developerVisitePostes;
+
+    /**
+     * @var Collection<int, CompanyFavDeveloper>
+     */
+    #[ORM\OneToMany(targetEntity: CompanyFavDeveloper::class, mappedBy: 'developer', orphanRemoval: true)]
+    private Collection $companyFavDevelopers;
+
+    /**
+     * @var Collection<int, CompanyVisiteDeveloper>
+     */
+    #[ORM\OneToMany(targetEntity: CompanyVisiteDeveloper::class, mappedBy: 'developer', orphanRemoval: true)]
+    private Collection $companyVisiteDevelopers;
+
     // /**
     //  * @var Collection<int, Company>
     //  */
@@ -98,6 +122,10 @@ class Developer
         $this->dev_give_notes = new ArrayCollection();
         // $this->companies_has_developers = new ArrayCollection();
         // $this->companies_visite_developers = new ArrayCollection();
+        $this->developerFavPostes = new ArrayCollection();
+        $this->developerVisitePostes = new ArrayCollection();
+        $this->companyFavDevelopers = new ArrayCollection();
+        $this->companyVisiteDevelopers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -404,4 +432,124 @@ class Developer
 
     //     return $this;
     // }
+
+    /**
+     * @return Collection<int, DeveloperFavPoste>
+     */
+    public function getDeveloperFavPostes(): Collection
+    {
+        return $this->developerFavPostes;
+    }
+
+    public function addDeveloperFavPoste(DeveloperFavPoste $developerFavPoste): static
+    {
+        if (!$this->developerFavPostes->contains($developerFavPoste)) {
+            $this->developerFavPostes->add($developerFavPoste);
+            $developerFavPoste->setDeveloper($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeveloperFavPoste(DeveloperFavPoste $developerFavPoste): static
+    {
+        if ($this->developerFavPostes->removeElement($developerFavPoste)) {
+            // set the owning side to null (unless already changed)
+            if ($developerFavPoste->getDeveloper() === $this) {
+                $developerFavPoste->setDeveloper(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DeveloperVisitePoste>
+     */
+    public function getDeveloperVisitePostes(): Collection
+    {
+        return $this->developerVisitePostes;
+    }
+
+    public function addDeveloperVisitePoste(DeveloperVisitePoste $developerVisitePoste): static
+    {
+        if (!$this->developerVisitePostes->contains($developerVisitePoste)) {
+            $this->developerVisitePostes->add($developerVisitePoste);
+            $developerVisitePoste->setDeveloper($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeveloperVisitePoste(DeveloperVisitePoste $developerVisitePoste): static
+    {
+        if ($this->developerVisitePostes->removeElement($developerVisitePoste)) {
+            // set the owning side to null (unless already changed)
+            if ($developerVisitePoste->getDeveloper() === $this) {
+                $developerVisitePoste->setDeveloper(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CompanyFavDeveloper>
+     */
+    public function getCompanyFavDevelopers(): Collection
+    {
+        return $this->companyFavDevelopers;
+    }
+
+    public function addCompanyFavDeveloper(CompanyFavDeveloper $companyFavDeveloper): static
+    {
+        if (!$this->companyFavDevelopers->contains($companyFavDeveloper)) {
+            $this->companyFavDevelopers->add($companyFavDeveloper);
+            $companyFavDeveloper->setDeveloper($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompanyFavDeveloper(CompanyFavDeveloper $companyFavDeveloper): static
+    {
+        if ($this->companyFavDevelopers->removeElement($companyFavDeveloper)) {
+            // set the owning side to null (unless already changed)
+            if ($companyFavDeveloper->getDeveloper() === $this) {
+                $companyFavDeveloper->setDeveloper(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CompanyVisiteDeveloper>
+     */
+    public function getCompanyVisiteDevelopers(): Collection
+    {
+        return $this->companyVisiteDevelopers;
+    }
+
+    public function addCompanyVisiteDeveloper(CompanyVisiteDeveloper $companyVisiteDeveloper): static
+    {
+        if (!$this->companyVisiteDevelopers->contains($companyVisiteDeveloper)) {
+            $this->companyVisiteDevelopers->add($companyVisiteDeveloper);
+            $companyVisiteDeveloper->setDeveloper($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompanyVisiteDeveloper(CompanyVisiteDeveloper $companyVisiteDeveloper): static
+    {
+        if ($this->companyVisiteDevelopers->removeElement($companyVisiteDeveloper)) {
+            // set the owning side to null (unless already changed)
+            if ($companyVisiteDeveloper->getDeveloper() === $this) {
+                $companyVisiteDeveloper->setDeveloper(null);
+            }
+        }
+
+        return $this;
+    }
 }

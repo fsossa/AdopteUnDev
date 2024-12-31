@@ -35,6 +35,18 @@ class Company
     #[ORM\OneToMany(targetEntity: Poste::class, mappedBy: 'company', orphanRemoval: true)]
     private Collection $postes;
 
+    /**
+     * @var Collection<int, CompanyFavDeveloper>
+     */
+    #[ORM\OneToMany(targetEntity: CompanyFavDeveloper::class, mappedBy: 'company', orphanRemoval: true)]
+    private Collection $companyFavDevelopers;
+
+    /**
+     * @var Collection<int, CompanyVisiteDeveloper>
+     */
+    #[ORM\OneToMany(targetEntity: CompanyVisiteDeveloper::class, mappedBy: 'company', orphanRemoval: true)]
+    private Collection $companyVisiteDevelopers;
+
     // /**
     //  * @var Collection<int, Developer>
     //  */
@@ -52,6 +64,8 @@ class Company
         $this->postes = new ArrayCollection();
         // $this->fav_developers = new ArrayCollection();
         // $this->visited_developers = new ArrayCollection();
+        $this->companyFavDevelopers = new ArrayCollection();
+        $this->companyVisiteDevelopers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,4 +204,64 @@ class Company
 
     //     return $this;
     // }
+
+    /**
+     * @return Collection<int, CompanyFavDeveloper>
+     */
+    public function getCompanyFavDevelopers(): Collection
+    {
+        return $this->companyFavDevelopers;
+    }
+
+    public function addCompanyFavDeveloper(CompanyFavDeveloper $companyFavDeveloper): static
+    {
+        if (!$this->companyFavDevelopers->contains($companyFavDeveloper)) {
+            $this->companyFavDevelopers->add($companyFavDeveloper);
+            $companyFavDeveloper->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompanyFavDeveloper(CompanyFavDeveloper $companyFavDeveloper): static
+    {
+        if ($this->companyFavDevelopers->removeElement($companyFavDeveloper)) {
+            // set the owning side to null (unless already changed)
+            if ($companyFavDeveloper->getCompany() === $this) {
+                $companyFavDeveloper->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CompanyVisiteDeveloper>
+     */
+    public function getCompanyVisiteDevelopers(): Collection
+    {
+        return $this->companyVisiteDevelopers;
+    }
+
+    public function addCompanyVisiteDeveloper(CompanyVisiteDeveloper $companyVisiteDeveloper): static
+    {
+        if (!$this->companyVisiteDevelopers->contains($companyVisiteDeveloper)) {
+            $this->companyVisiteDevelopers->add($companyVisiteDeveloper);
+            $companyVisiteDeveloper->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompanyVisiteDeveloper(CompanyVisiteDeveloper $companyVisiteDeveloper): static
+    {
+        if ($this->companyVisiteDevelopers->removeElement($companyVisiteDeveloper)) {
+            // set the owning side to null (unless already changed)
+            if ($companyVisiteDeveloper->getCompany() === $this) {
+                $companyVisiteDeveloper->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
 }
