@@ -32,6 +32,26 @@ final class Version20241231185054 extends AbstractMigration
         $this->addSql('ALTER TABLE developer_fav_poste ADD CONSTRAINT FK_1960A7D1A0905086 FOREIGN KEY (poste_id) REFERENCES poste (id)');
         $this->addSql('ALTER TABLE developer_visite_poste ADD CONSTRAINT FK_38729EAE64DD9267 FOREIGN KEY (developer_id) REFERENCES developer (id)');
         $this->addSql('ALTER TABLE developer_visite_poste ADD CONSTRAINT FK_38729EAEA0905086 FOREIGN KEY (poste_id) REFERENCES poste (id)');
+        $pass = password_hash('123456', PASSWORD_BCRYPT);
+        $this->addSql("INSERT INTO user VALUES (1, 'fulbsossa17@gmail.com', json)");
+        $this->addSql("
+            INSERT INTO user (id, email, roles, password)
+            VALUES (
+                1,
+                'fulbsossa17@gmail.com',
+                '[\"ROLE_DEV\"]',
+                $pass,
+            )
+        ");
+
+        // $this->addSql("
+        //     INSERT INTO user (email, roles, password)
+        //     VALUES (
+        //         'monelcocou@gmail.com',
+        //         '[\"ROLE_DEV\"]',
+        //         $pass,
+        //     )
+        // ");
     }
 
     public function down(Schema $schema): void
