@@ -35,23 +35,47 @@ final class Version20241231185054 extends AbstractMigration
         $pass = password_hash('123456', PASSWORD_BCRYPT);
         $this->addSql("INSERT INTO user VALUES (1, 'fulbsossa17@gmail.com', json)");
         $this->addSql("
-            INSERT INTO user (id, email, roles, password)
+            INSERT INTO user (id, email, roles, password, is_verified)
             VALUES (
                 1,
-                'fulbsossa17@gmail.com',
+                'developer@test.xyz',
                 '[\"ROLE_DEV\"]',
                 $pass,
+                1
+            )
+        ");
+        $this->addSql("
+            INSERT INTO developer (id, user_id, firstname, lastname, gender, experiences, salary)
+            VALUES (
+                1,
+                1,
+                'Ange',
+                'GOHI',
+                'F',
+                2,
+                2000
             )
         ");
 
-        // $this->addSql("
-        //     INSERT INTO user (email, roles, password)
-        //     VALUES (
-        //         'monelcocou@gmail.com',
-        //         '[\"ROLE_DEV\"]',
-        //         $pass,
-        //     )
-        // ");
+        $this->addSql("
+            INSERT INTO user (id, email, roles, password, is_verified)
+            VALUES (
+                2,
+                'company@test.xyz',
+                '[\"ROLE_COMPANY\"]',
+                $pass,
+                1
+            )
+        ");
+        
+        $this->addSql("
+            INSERT INTO company (id, user_id, name)
+            VALUES (
+                1,
+                2,
+                'MAFE'
+            )
+        ");
     }
 
     public function down(Schema $schema): void
