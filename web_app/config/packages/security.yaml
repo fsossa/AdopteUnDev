@@ -41,6 +41,12 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/verify/email, roles: PUBLIC_ACCESS }
+        - { path: ^/company, roles: ROLE_COMPANY }
+        - { path: ^/developer, roles: ROLE_DEV }
+        # - { path: ^/company, roles: ROLE_COMPANY }
 
 when@test:
     security:

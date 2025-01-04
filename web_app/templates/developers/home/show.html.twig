@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Developer{% endblock %}
+
+{% block body %}
+    <h1>Developer</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ developer.id }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ developer.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ developer.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Birthday</th>
+                <td>{{ developer.birthday ? developer.birthday|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ developer.gender }}</td>
+            </tr>
+            <tr>
+                <th>Experiences</th>
+                <td>{{ developer.experiences }}</td>
+            </tr>
+            <tr>
+                <th>Salary</th>
+                <td>{{ developer.salary }}</td>
+            </tr>
+            <tr>
+                <th>Biography</th>
+                <td>{{ developer.biography }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ developer.location }}</td>
+            </tr>
+            <tr>
+                <th>Avatar</th>
+                <td>{{ developer.avatar }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_home_index') }}">back to list</a>
+
+    <a href="{{ path('app_home_edit', {'id': developer.id}) }}">edit</a>
+
+    {{ include('home/_delete_form.html.twig') }}
+{% endblock %}

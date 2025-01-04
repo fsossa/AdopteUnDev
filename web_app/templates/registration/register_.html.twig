@@ -1,0 +1,82 @@
+{% extends 'layouts/auth.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6 animate__animated animate__fadeInLeft">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center mb-4 text-primary">Créer un compte</h2>
+                <div class="d-flex justify-content-center mb-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="profileType" id="developer" value="developer" checked>
+                        <label class="form-check-label fw-bold" for="developer">Développeur</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="profileType" id="company" value="company">
+                        <label class="form-check-label fw-bold" for="company">Compagnie</label>
+                    </div>
+                </div>
+                
+                <div id="developerForm">
+                    <form>
+                        <div class="mb-3">
+                            <label for="devName" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="devName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="devEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="devEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="devSkills" class="form-label">Compétences</label>
+                            <input type="text" class="form-control" id="devSkills">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100">S'inscrire</button>
+                    </form>
+                </div>
+
+                <div id="companyForm" class="d-none">
+                    <form>
+                        <div class="mb-3">
+                            <label for="compName" class="form-label">Nom de la compagnie</label>
+                            <input type="text" class="form-control" id="compName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="compEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="compEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="compIndustry" class="form-label">Secteur d'activité</label>
+                            <input type="text" class="form-control" id="compIndustry">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100">S'inscrire</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 animate__animated animate__fadeInRight d-flex flex-column align-items-center">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="img-fluid mb-4" style="max-width: 200px;">
+            <p class="text-center text-white">Rejoignez notre communauté et profitez de toutes les opportunités pour développer vos compétences ou votre entreprise.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {# {% block importmap %}{{ importmap('app') }}{% endblock %} #}
+    <script>
+        document.querySelectorAll('input[name="profileType"]').forEach((elem) => {
+            elem.addEventListener("change", function(event) {
+                if (event.target.value === "developer") {
+                    document.getElementById("developerForm").classList.remove("d-none");
+                    document.getElementById("companyForm").classList.add("d-none");
+                } else {
+                    document.getElementById("companyForm").classList.remove("d-none");
+                    document.getElementById("developerForm").classList.add("d-none");
+                }
+            });
+        });
+    </script>
+{% endblock %}
