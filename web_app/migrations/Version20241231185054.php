@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -32,20 +35,14 @@ final class Version20241231185054 extends AbstractMigration
         $this->addSql('ALTER TABLE developer_fav_poste ADD CONSTRAINT FK_1960A7D1A0905086 FOREIGN KEY (poste_id) REFERENCES poste (id)');
         $this->addSql('ALTER TABLE developer_visite_poste ADD CONSTRAINT FK_38729EAE64DD9267 FOREIGN KEY (developer_id) REFERENCES developer (id)');
         $this->addSql('ALTER TABLE developer_visite_poste ADD CONSTRAINT FK_38729EAEA0905086 FOREIGN KEY (poste_id) REFERENCES poste (id)');
-        $pass = password_hash('123456', PASSWORD_BCRYPT);
-        $this->addSql("INSERT INTO user VALUES (1, 'fulbsossa17@gmail.com', json)");
-        $this->addSql("
-            INSERT INTO user (id, email, roles, password, is_verified)
-            VALUES (
-                1,
-                'developer@test.xyz',
-                '[\"ROLE_DEV\"]',
-                $pass,
-                1
-            )
-        ");
-        $this->addSql("
-            INSERT INTO developer (id, user_id, firstname, lastname, gender, experiences, salary)
+        
+        // $entityM = new EntityManager();
+        // UserRepository::createDefaultUser($entityM, true);
+        // $userR = new UserRepository();
+        $secret = password_hash('123456', PASSWORD_BCRYPT);
+        $this->addSql("INSERT INTO user VALUES (1, 'developer@test.xyz', '[\"ROLE_DEV\"]', '$secret', 1, NOW(), NOW())");
+
+        $this->addSql("INSERT INTO developer (id, user_id, firstname, lastname, gender, experiences, salary)
             VALUES (
                 1,
                 1,
@@ -57,19 +54,9 @@ final class Version20241231185054 extends AbstractMigration
             )
         ");
 
-        $this->addSql("
-            INSERT INTO user (id, email, roles, password, is_verified)
-            VALUES (
-                2,
-                'company@test.xyz',
-                '[\"ROLE_COMPANY\"]',
-                $pass,
-                1
-            )
-        ");
+        $this->addSql("INSERT INTO user VALUES (2, 'company@test.xyz', '[\"ROLE_COMPANY\"]', '$secret', 1, NOW(), NOW())");
         
-        $this->addSql("
-            INSERT INTO company (id, user_id, name)
+        $this->addSql("INSERT INTO company (id, user_id, name)
             VALUES (
                 1,
                 2,

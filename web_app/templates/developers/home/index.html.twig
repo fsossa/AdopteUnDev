@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Developer index{% endblock %}
+
+{% block body %}
+    <h1>Developer index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Birthday</th>
+                <th>Gender</th>
+                <th>Experiences</th>
+                <th>Salary</th>
+                <th>Biography</th>
+                <th>Location</th>
+                <th>Avatar</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for developer in developers %}
+            <tr>
+                <td>{{ developer.id }}</td>
+                <td>{{ developer.firstname }}</td>
+                <td>{{ developer.lastname }}</td>
+                <td>{{ developer.birthday ? developer.birthday|date('Y-m-d') : '' }}</td>
+                <td>{{ developer.gender }}</td>
+                <td>{{ developer.experiences }}</td>
+                <td>{{ developer.salary }}</td>
+                <td>{{ developer.biography }}</td>
+                <td>{{ developer.location }}</td>
+                <td>{{ developer.avatar }}</td>
+                <td>
+                    <a href="{{ path('app_home_show', {'id': developer.id}) }}">show</a>
+                    <a href="{{ path('app_home_edit', {'id': developer.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_home_new') }}">Create new</a>
+{% endblock %}
