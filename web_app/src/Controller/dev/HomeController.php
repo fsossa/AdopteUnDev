@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Developer;
+namespace App\Controller\dev;
 
 use App\Entity\Developer;
 use App\Form\DeveloperType;
