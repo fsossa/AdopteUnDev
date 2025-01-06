@@ -40,29 +40,15 @@ final class Version20241231185054 extends AbstractMigration
         // UserRepository::createDefaultUser($entityM, true);
         // $userR = new UserRepository();
         $secret = password_hash('123456', PASSWORD_BCRYPT);
-        $this->addSql("INSERT INTO user VALUES (1, 'developer@test.xyz', '[\"ROLE_DEV\"]', '$secret', 1, NOW(), NOW())");
+        $this->addSql("INSERT INTO user VALUES (1, 'developer@test.xyz', '[\"ROLE_USER\", \"ROLE_DEV\"]', '$secret', 1, NOW(), NOW())");
 
         $this->addSql("INSERT INTO developer (id, user_id, firstname, lastname, gender, experiences, salary)
-            VALUES (
-                1,
-                1,
-                'Ange',
-                'GOHI',
-                'F',
-                2,
-                2000
-            )
-        ");
+            VALUES (1, 1, 'Ange', 'GOHI', 'F', 2, 2000)");
 
-        $this->addSql("INSERT INTO user VALUES (2, 'company@test.xyz', '[\"ROLE_COMPANY\"]', '$secret', 1, NOW(), NOW())");
+        $this->addSql("INSERT INTO user VALUES (2, 'company@test.xyz', '[\"ROLE_USER\", \"ROLE_COMPANY\"]', '$secret', 1, NOW(), NOW())");
         
         $this->addSql("INSERT INTO company (id, user_id, name)
-            VALUES (
-                1,
-                2,
-                'MAFE'
-            )
-        ");
+            VALUES (1, 2, 'MAFE')");
     }
 
     public function down(Schema $schema): void
