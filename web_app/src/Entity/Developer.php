@@ -501,6 +501,12 @@ class Developer
         return $this->companyFavDevelopers;
     }
 
+    public function getMyNotes(): Collection
+{
+    return $this->my_notes;
+}
+
+
     public function addCompanyFavDeveloper(CompanyFavDeveloper $companyFavDeveloper): static
     {
         if (!$this->companyFavDevelopers->contains($companyFavDeveloper)) {

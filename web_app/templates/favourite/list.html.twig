@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des favoris{% endblock %}
+
+{% block body %}
+    <h1>Favoris de {{ developer.name }}</h1>
+
+    {# Formulaire pour ajouter un nouveau favori #}
+    <h2>Ajouter un nouveau favori</h2>
+    <form action="{{ path('favourite_add', {'developerId': developer.id}) }}" method="POST">
+        <label for="poste">Choisissez un poste :</label>
+        <select name="poste" id="poste">
+            {% for poste in allPostes %}
+                <option value="{{ poste.id }}">{{ poste.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Ajouter aux favoris</button>
+    </form>
+
+    {# Liste des postes favoris #}
+    <h2>Mes favoris :</h2>
+    {% if favourites is empty %}
+        <p>Aucun favori.</p>
+    {% else %}
+        <ul>
+            {% for favourite in favourites %}
+                <li>
+                    {{ favourite.poste.name }}
+                    <form action="{{ path('favourite_remove', {'developerId': developer.id, 'posteId': favourite.poste.id}) }}" method="POST" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce favori ?');">Supprimer</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
