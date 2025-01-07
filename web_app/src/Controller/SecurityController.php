@@ -35,10 +35,10 @@ class SecurityController extends AbstractController
     #[Route(path: '/dashboard', name: 'app_dashboard')]
     public function redirectAuthUser(Security $security): Response{
         if ($security->isGranted('ROLE_DEV')) {
-            return $this->redirectToRoute('app_dev_dashboard');
+            return $this->redirectToRoute('app_developer_home');
         }
         if ($security->isGranted('ROLE_COMPANY')) {
-            return $this->redirectToRoute('app_company_dashboard');
+            return $this->redirectToRoute('app_company_home');
         }
     }
 }
