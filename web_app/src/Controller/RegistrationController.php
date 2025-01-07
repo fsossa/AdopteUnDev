@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
+use App\Entity\Developer;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
@@ -11,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
@@ -33,22 +36,67 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->add('firstname', TextType::class, [
+            'label' => 'Prénom(s)',
+            'mapped' =>false,
+            'attr' => [
+                'class' => 'form-control',
+                'required' => true,
+            ],
+        ]);
+        $form->add('lastname', TextType::class, [
+            'label' => 'Nom',
+            'mapped' =>false,
+            'attr' => [
+                'class' => 'form-control',
+                'required' => true,
+            ],
+        ]);
         $form->handleRequest($request);
 
+        $company = new User();
+        $formCompany = $this->createForm(RegistrationFormType::class, $company);
+        $formCompany->add('name', TextType::class, [
+            'label' => 'Nom de l\'entreprise',
+            'mapped' =>false,
+            'attr' => [
+                'class' => 'form-control',
+                'required' => true,
+            ],
+        ]);
+        $formCompany->add('location', TextType::class, [
+            'label' => 'Adresse',
+            'mapped' =>false,
+            'attr' => [
+                'class' => 'form-control',
+                'required' => false,
+            ],
+        ]);
+        $formCompany->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-
+            $user->setRoles(["ROLE_USER", "ROLE_DEV"]);
             $entityManager->persist($user);
+
+            // Create developer for this user
+            $developer = new Developer();
+            $developer->setUser($user);
+            $developer->setFirstname($form->get("firstname")->getData());
+            $developer->setLastname($form->get("lastname")->getData());
+
+            $entityManager->persist($developer);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address(env('MAIL_FROM_ADRESS'), 'Noreply'))
+                    // ->from(new Address((string) getenv('MAIL_FROM_ADRESS', true) ?? 'noreply@adopteundev.com', 'Noreply'))
+                    ->from(new Address('fulbsossa16@gmail.com', 'Noreply'))
                     ->to((string) $user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
@@ -58,10 +106,45 @@ class RegistrationController extends AbstractController
 
             return $security->login($user, LoginFormAuthenticator::class, 'main');
         }
+        else if ($formCompany->isSubmitted() && $formCompany->isValid()) {
+            /** @var string $plainPassword */
+            $plainPassword = $formCompany->get('plainPassword')->getData();
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
-        ]);
+            // encode the plain password
+            $company->setPassword($userPasswordHasher->hashPassword($company, $plainPassword));
+            $company->setRoles(["ROLE_USER", "ROLE_COMPANY"]);
+
+            $entityManager->persist($company);
+
+            // Create company for this user
+            $_company = new Company();
+            $_company->setUser($company);
+            $_company->setName($formCompany->get("name")->getData());
+            $_company->setLocation($formCompany->get("location")->getData());
+
+            $entityManager->persist($_company);
+            $entityManager->flush();
+
+            // generate a signed url and email it to the user
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $company,
+                (new TemplatedEmail())
+                    ->from(new Address(getenv('MAIL_FROM_ADRESS', true) ?? 'noreply@adopteundev.com', 'Noreply'))
+                    ->to((string) $company->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
+
+            // do anything else you need here, like send an email
+
+            return $security->login($company, LoginFormAuthenticator::class, 'main');
+        }else{
+            return $this->render('registration/register.html.twig', [
+                'registrationForm' => $form,
+                'registrationFormCompany' => $formCompany,
+            ]);
+        }
+
+        
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]

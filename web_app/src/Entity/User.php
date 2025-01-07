@@ -8,6 +8,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use function Symfony\Component\Clock\now;
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -48,6 +50,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
+    public function __construct() {
+        $this->created_at = now();
+        $this->updated_at = now();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -174,9 +180,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $created_at = null): static
     {
-        $this->created_at = $created_at;
+        $this->created_at = $created_at ?? now();
 
         return $this;
     }
@@ -186,9 +192,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+    public function setUpdatedAt(\DateTimeImmutable $updated_at = null): static
     {
-        $this->updated_at = $updated_at;
+        $this->updated_at = $updated_at ?? now();
 
         return $this;
     }

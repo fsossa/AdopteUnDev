@@ -15,7 +15,7 @@ class SecurityController extends AbstractController
     {
         if ($this->getUser()) {
             // $userLog = $this->getUser();
-            return $this->redirectToRoute('target_path');
+            return $this->redirectToRoute('app_dashboard');
         }
 
         // get the login error if there is one
@@ -32,7 +32,7 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route(path: '/dashboard', name: 'app_dashboard')]
+    #[Route(path: ['/dashboard', '/app'], name: 'app_dashboard')]
     public function redirectAuthUser(Security $security): Response{
         if ($security->isGranted('ROLE_DEV')) {
             return $this->redirectToRoute('app_developer_home');
