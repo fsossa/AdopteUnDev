@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une compétence à {{ developer.name }}{% endblock %}
+
+{% block body %}
+    <h1>Ajouter une compétence à {{ developer.name }}</h1>
+
+    <form method="post">
+        <label for="skills">Compétences:</label>
+        <select name="skills[]" multiple>
+            {% for skill in skills %}
+                <option value="{{ skill.id }}">{{ skill.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Ajouter la compétence</button>
+    </form>
+
+    <h3>Compétences actuelles:</h3>
+    <ul>
+        {% for skill in developer.skills %}
+            <li>{{ skill.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ path('app_developer_show', {'id': developer.id}) }}" class="btn btn-secondary">Retour au profil</a>
+{% endblock %}

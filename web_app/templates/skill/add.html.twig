@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une nouvelle compétence{% endblock %}
+
+{% block body %}
+    <h1>Ajouter une nouvelle compétence</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_skill_index') }}" class="btn btn-secondary">Retour à la liste des compétences</a>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des développeurs{% endblock %}
+
+{% block body %}
+    <h1>Liste des développeurs</h1>
+
+    <a href="{{ path('app_developer_new') }}" class="btn btn-primary">Ajouter un développeur</a>
+
+    <ul>
+        {% for developer in developers %}
+            <li>
+                <a href="{{ path('app_developer_show', {'id': developer.id}) }}">{{ developer.name }}</a>
+                <a href="{{ path('app_developer_profile', {'id': developer.id}) }}">Profil</a>
+                <a href="{{ path('app_developer_edit', {'id': developer.id}) }}">Modifier</a>
+                <form action="{{ path('app_developer_delete', {'id': developer.id}) }}" method="post">
+                    <button type="submit">Supprimer</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %} 

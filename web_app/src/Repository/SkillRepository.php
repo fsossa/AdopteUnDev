@@ -1,14 +1,10 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\Skill;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Skill>
- */
 class SkillRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +12,35 @@ class SkillRepository extends ServiceEntityRepository
         parent::__construct($registry, Skill::class);
     }
 
-    //    /**
-    //     * @return Skill[] Returns an array of Skill objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    // Rechercher des compétences par mot-clé (nom de la compétence)
+    public function searchByKeyword(string $keyword)
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.name LIKE :keyword')
+            ->setParameter('keyword', '%' . $keyword . '%')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Skill
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    // Récupérer les compétences les plus populaires (en fonction du nombre de développeurs associés)
+    public function findMostPopularSkills()
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.developers', 'd')
+            ->groupBy('s.id')
+            ->orderBy('COUNT(d.id)', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    // Récupérer toutes les compétences d'un développeur spécifique
+    public function findSkillsByDeveloper(int $developerId)
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.developers', 'd')
+            ->where('d.id = :developerId')
+            ->setParameter('developerId', $developerId)
+            ->getQuery()
+            ->getResult();
+    }
 }
