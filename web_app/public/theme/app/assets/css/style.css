@@ -15,8 +15,13 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  background: #f6f9ff;
+  /* background: #f6f9ff; */
   color: #444444;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/bg2.jpg') ; /* Chemin de l'image */
+  background-size: cover;  /* Ajuste l'image pour couvrir tout l'écran */
+  background-position: center;  /* Centre l'image */
+  background-repeat: no-repeat;  /* Empêche la répétition */
+  background-attachment: fixed;  /* Fixe l'image lors du scroll */
 }
 
 a {

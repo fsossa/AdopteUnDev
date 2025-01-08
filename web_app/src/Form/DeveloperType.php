@@ -26,25 +26,25 @@ class DeveloperType extends AbstractType
             ->add('biography')
             ->add('location')
             ->add('avatar')
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
+            // ->add('user', EntityType::class, [
+            //     'class' => User::class,
+            //     'choice_label' => 'id',
+            // ])
             ->add('skills', EntityType::class, [
                 'class' => Skill::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])
-            ->add('my_notes', EntityType::class, [
-                'class' => Developer::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
-            ->add('dev_give_notes', EntityType::class, [
-                'class' => Developer::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
+            // ->add('my_notes', EntityType::class, [
+            //     'class' => Developer::class,
+            //     'choice_label' => 'id',
+            //     'multiple' => true,
+            // ])
+            // ->add('dev_give_notes', EntityType::class, [
+            //     'class' => Developer::class,
+            //     'choice_label' => 'id',
+            //     'multiple' => true,
+            // ])
         ;
     }
 
