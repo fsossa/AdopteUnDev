@@ -89,7 +89,7 @@ final class DeveloperController extends AbstractController
     #[Route('/{id}', name: 'app_developer_delete', methods: ['POST'])]
     public function delete(Request $request, Developer $developer, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$developer->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $developer->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($developer);
             $entityManager->flush();
         }
