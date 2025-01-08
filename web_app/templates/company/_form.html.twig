@@ -1,0 +1,85 @@
+{{ form_start(form) }}
+{# {{ form_widget(form) }} #}
+
+
+<form
+	method="post" enctype="multipart/form-data">
+	{# <div class="row mb-3">
+																				<label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Logo</label>
+																				<div class="col-md-8 col-lg-9">
+																					{{ form_row(form.logo, { 'attr': {'class': 'form-control'} }) }}
+																					<div class="pt-2">
+																						<a href="#" class="btn btn-primary btn-sm" title="Upload your logo">
+																							<i class="bi bi-upload"></i>
+																						</a>
+																						<a href="#" class="btn btn-danger btn-sm" title="Delete your logo">
+																							<i class="bi bi-trash"></i>
+																						</a>
+																					</div>
+																				</div>
+																			</div> #}
+
+	<div class="row mb-3">
+		<label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nom de la compagnie</label>
+		<div class="col-md-8 col-lg-9">
+			{{ form_row(form.name, { 'attr': {'class': 'form-control'}, 'label':false }) }}
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label for="about" class="col-md-4 col-lg-3 col-form-label">Description</label>
+		<div class="col-md-8 col-lg-9">
+			{{ form_row(form.description, { 'attr': {'class': 'form-control', 'style': 'height: 100px;'} , 'label':false }) }}
+
+		</div>
+	</div>
+
+	{# <div class="row mb-3">
+																		<label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
+																		<div class="col-md-8 col-lg-9">
+																			{{ form_row(form.country, { 'attr': {'class': 'form-control'} }) }}
+																
+																		</div>
+																	</div> #}
+
+	<div class="row mb-3">
+		<label for="Address" class="col-md-4 col-lg-3 col-form-label">Addresse</label>
+		<div class="col-md-8 col-lg-9">
+			{{ form_row(form.location, { 'attr': {'class': 'form-control'} , 'label':false }) }}
+
+		</div>
+	</div>
+
+	<div class="row mb-3" style="display: none;">
+		<label for="Address" class="col-md-4 col-lg-3 col-form-label">User</label>
+		<div class="col-md-8 col-lg-9">
+			{{ form_row(form.user, { 'attr': {'class': 'form-control'} , 'label':false }) }}
+
+		</div>
+	</div>
+
+	{# 
+																<div class="row mb-3">
+																	<label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+																	<div class="col-md-8 col-lg-9">
+																		{{ form_row(form.phone, { 'attr': {'class': 'form-control'} }) }}
+																	</div>
+																</div> #}
+
+	{# <div class="row mb-3">
+																<label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+																<div class="col-md-8 col-lg-9">
+																	{{ form_row(form.email, { 'attr': {'class': 'form-control'} }) }}
+																</div>
+															</div> #}
+
+	<div
+		class="text-center">
+		{# <button type="submit" class="btn btn-primary">{{ button_label }}</button> #}
+		<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+
+	</div>
+
+
+	{{ form_end(form) }}
