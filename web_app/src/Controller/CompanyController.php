@@ -11,10 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/company')]
+#[Route('/app/company')]
 final class CompanyController extends AbstractController
 {
-    #[Route(name: 'app_company_index', methods: ['GET'])]
+    #[Route(name: 'app_company_home', methods: ['GET'])]
     public function index(CompanyRepository $companyRepository): Response
     {
         return $this->render('company/index.html.twig', [
