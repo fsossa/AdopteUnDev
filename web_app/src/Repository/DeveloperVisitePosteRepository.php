@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Repository;
-
 use App\Entity\DeveloperVisitePoste;
+use App\Entity\Poste;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +40,22 @@ class DeveloperVisitePosteRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function addView(DeveloperVisitePoste $view ,Poste $post): void
+    {
+        $view = new DeveloperVisitePoste($view);
+        $post = new Poste($post);
+        $this->_em->persist($view,$post);
+        $this->_em->flush();
+    }
+    public function countViews(DeveloperVisitePoste $view): int
+    {
+        return $this->createQueryBuilder('v')
+            ->select('COUNT(v.id)')
+            ->where('v.post = :post')
+            ->setParameter('post', $view)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
 }
