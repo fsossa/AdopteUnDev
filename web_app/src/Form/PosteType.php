@@ -7,6 +7,7 @@ use App\Entity\Poste;
 use App\Entity\Skill;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,16 +18,19 @@ class PosteType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('location')
+            ->add('location', TextType::class, [
+                'label' => 'Adresse',
+                'attr' => ['class' => 'form-control']
+            ])
             ->add('experiences')
             ->add('min_salary')
             ->add('max_salary')
-            ->add('created_at', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updated_at', null, [
-                'widget' => 'single_text',
-            ])
+            // ->add('created_at', null, [
+            //     'widget' => 'single_text',
+            // ])
+            // ->add('updated_at', null, [
+            //     'widget' => 'single_text',
+            // ])
             ->add('company', EntityType::class, [
                 'class' => Company::class,
                 'choice_label' => 'id',
