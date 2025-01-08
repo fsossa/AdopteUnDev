@@ -33,7 +33,7 @@ class PosteType extends AbstractType
             ])
             ->add('skills', EntityType::class, [
                 'class' => Skill::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'multiple' => true,
             ])
         ;

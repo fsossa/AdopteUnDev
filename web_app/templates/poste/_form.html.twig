@@ -1,4 +1,100 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="d-flex justify-content-center">
+	<div class="card col-lg-8">
+
+		<div class="card-body">
+			<section class="section">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								{{ form_start(form) }}
+								<div class="row mb-3">
+									<label for="title" class="col-sm-2 col-form-label">Titre</label>
+									<div class="col-sm-10">
+										{{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="description" class="col-sm-2 col-form-label">Description</label>
+									<div class="col-sm-10">
+										{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="location" class="col-sm-2 col-form-label">Adresse</label>
+									<div class="col-sm-10">
+										{{ form_widget(form.location, {'attr': {'class': 'form-control'}}) }}
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="experiences" class="col-sm-2 col-form-label">Années d'expériences</label>
+									<div class="col-sm-10">
+										{{ form_widget(form.experiences, {'attr': {'class': 'form-control'}}) }}
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<div class="col-sm-6 d-flex">
+										<label for="min_salary" class="col-form-label col-sm-4">Salaire Minimum</label>
+										<div class="col-sm-8">
+											{{ form_widget(form.min_salary, {'attr': {'class': 'form-control'}}) }}
+										</div>
+									</div>
+									<div class="col-sm-6 d-flex">
+										<label for="max_salary" class="col-form-label col-sm-4">Salaire Maximum</label>
+										<div class="col-sm-8">
+											{{ form_widget(form.max_salary, {'attr': {'class': 'form-control'}}) }}
+										</div>
+									</div>
+								</div>
+
+
+								{# <div class="row mb-3">
+																																																																																									<label for="created_at" class="col-sm-2 col-form-label">Created At</label>
+																																																																																									<div class="col-sm-10">
+																																																																																										{{ form_widget(form.created_at, {'attr': {'class': 'form-control'}}) }}
+																																																																																									</div>
+																																																																																								</div>
+																																																																																
+																																																																																								<div class="row mb-3">
+																																																																																									<label for="updated_at" class="col-sm-2 col-form-label">Updated At</label>
+																																																																																									<div class="col-sm-10">
+																																																																																										{{ form_widget(form.updated_at, {'attr': {'class': 'form-control'}}) }}
+																																																																																									</div>
+																																																																																								</div> #}
+
+								<div class="row mb-3">
+									<label for="company" class="col-sm-2 col-form-label">Company</label>
+									<div class="col-sm-10">
+										{{ form_widget(form.company, {'attr': {'class': 'form-control'}}) }}
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="skills" class="col-sm-2 col-form-label">Expériences Recquises</label>
+									<div class="col-sm-10">
+										{{ form_widget(form.skills, {'attr': {'class': 'form-control'}}) }}
+									</div>
+								</div>
+
+
+								<div class="row mb-3">
+									<div class="col-sm-10 offset-sm-2">
+										<button type="submit" class="btn btn-primary">Submit</button>
+									</div>
+								</div>
+								{{ form_end(form) }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>
 {{ form_end(form) }}

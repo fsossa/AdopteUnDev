@@ -1,11 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/app.html.twig' %}
 
-{% block title %}New Poste{% endblock %}
 
-{% block body %}
-    <h1>Create new Poste</h1>
+{% block title %}New Poste
+{% endblock %}
 
-    {{ include('poste/_form.html.twig') }}
+{% block main %}
+	<main id="main" class="main">
 
-    <a href="{{ path('app_poste_index') }}">back to list</a>
+		<h1>Create new Poste</h1>
+
+		{{ include('poste/_form.html.twig') }}
+
+		<a href="{{ path('app_poste_index') }}">back to list</a>
+
+	</main>
 {% endblock %}
