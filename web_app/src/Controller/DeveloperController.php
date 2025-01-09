@@ -12,13 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/developer/'), ]
+#[Route('/app/developer'), ]
 final class DeveloperController extends AbstractController
 {
     #[Route(name: 'app_developer_home', methods: ['GET'])]
     public function index(DeveloperRepository $developerRepository, PosteRepository $posteRepository): Response
     {
-        return $this->render('developers/home.html.twig', [
+        return $this->render('developer/home.html.twig', [
             'developers' => $developerRepository->findAll(),
             'latestVisiteAndLike' => $developerRepository->findLatestVisiteAndLike(5),
             'bestPostes' => $posteRepository->findBest(3),
