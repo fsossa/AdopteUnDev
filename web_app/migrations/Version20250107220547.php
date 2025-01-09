@@ -59,10 +59,20 @@ final class Version20250107220547 extends AbstractMigration
             VALUES (1, 1, 'Ange', 'GOHI', 'F', 2, 2000)");
 
         $this->addSql("INSERT INTO user VALUES (2, 'company@test.xyz', '[\"ROLE_USER\", \"ROLE_COMPANY\"]', '$secret', 1, NOW(), NOW())");
-        
+
         $this->addSql("INSERT INTO company (id, user_id, name)
             VALUES (1, 2, 'MAFE')");
 
+
+
+        $this->GenerationjeuDeDonneesSkills();
+        $this->GenerationjeuDeDonneesFicheDePoste();
+    }
+
+
+
+    private function GenerationjeuDeDonneesSkills(): void
+    {
         // Liste des compétences avec descriptions
         $skills = [
             ['name' => 'Java', 'description' => 'Langage de programmation orienté objet, utilisé pour le développement web, mobile et d’applications d’entreprise.'],
@@ -116,6 +126,159 @@ final class Version20250107220547 extends AbstractMigration
                 [
                     'name' => $skill['name'],
                     'description' => $skill['description'],
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]
+            );
+        }
+    }
+
+    private function GenerationjeuDeDonneesFicheDePoste(): void
+    {
+        // Liste des 15 postes avec leurs informations
+        $postes = [
+            [
+                'title' => 'Développeur Symfony',
+                'description' => 'Développeur backend avec expertise en Symfony pour construire des applications web robustes et scalables.',
+                'location' => 'Paris, France',
+                'experiences' => 3,
+                'min_salary' => 35000,
+                'max_salary' => 45000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Développeur Full Stack React',
+                'description' => 'Développeur Full Stack pour la création d’applications interactives avec React.js, Next.js et Node.js.',
+                'location' => 'Lyon, France',
+                'experiences' => 5,
+                'min_salary' => 40000,
+                'max_salary' => 60000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Chef de Projet Technique',
+                'description' => 'Responsable du pilotage des projets techniques, gestion de l’équipe et suivi des livrables.',
+                'location' => 'Remote',
+                'experiences' => 7,
+                'min_salary' => 55000,
+                'max_salary' => 75000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Développeur Backend Node.js',
+                'description' => 'Développeur backend pour créer des applications performantes et évolutives avec Node.js et Express.',
+                'location' => 'Marseille, France',
+                'experiences' => 4,
+                'min_salary' => 38000,
+                'max_salary' => 52000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Ingénieur DevOps',
+                'description' => 'Responsable de l’automatisation des processus de développement et de déploiement avec Docker et Kubernetes.',
+                'location' => 'Bordeaux, France',
+                'experiences' => 6,
+                'min_salary' => 50000,
+                'max_salary' => 70000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Développeur Python Django',
+                'description' => 'Développeur Python pour créer des applications web avec le framework Django, API REST et base de données PostgreSQL.',
+                'location' => 'Toulouse, France',
+                'experiences' => 3,
+                'min_salary' => 35000,
+                'max_salary' => 48000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Développeur Mobile Android',
+                'description' => 'Développeur Android pour concevoir des applications mobiles performantes avec Kotlin.',
+                'location' => 'Paris, France',
+                'experiences' => 2,
+                'min_salary' => 34000,
+                'max_salary' => 45000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Développeur Frontend Vue.js',
+                'description' => 'Développeur frontend pour créer des interfaces utilisateur interactives et réactives avec Vue.js.',
+                'location' => 'Lyon, France',
+                'experiences' => 4,
+                'min_salary' => 40000,
+                'max_salary' => 55000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Responsable Sécurité Informatique',
+                'description' => 'Garantir la sécurité des systèmes d’information et la gestion des incidents de sécurité.',
+                'location' => 'Remote',
+                'experiences' => 8,
+                'min_salary' => 60000,
+                'max_salary' => 90000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Développeur PHP Laravel',
+                'description' => 'Développeur backend PHP avec une forte expertise dans le framework Laravel pour des applications web robustes.',
+                'location' => 'Paris, France',
+                'experiences' => 3,
+                'min_salary' => 35000,
+                'max_salary' => 48000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Développeur Full Stack Java',
+                'description' => 'Développeur Full Stack pour la création d’applications d’entreprise avec Java et Spring.',
+                'location' => 'Marseille, France',
+                'experiences' => 5,
+                'min_salary' => 40000,
+                'max_salary' => 60000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Data Scientist Python',
+                'description' => 'Data Scientist pour analyser les données massives et développer des modèles de machine learning avec Python.',
+                'location' => 'Lille, France',
+                'experiences' => 4,
+                'min_salary' => 45000,
+                'max_salary' => 65000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Développeur C# ASP.NET',
+                'description' => 'Développeur backend pour créer des applications web dynamiques avec ASP.NET et C#.',
+                'location' => 'Bordeaux, France',
+                'experiences' => 3,
+                'min_salary' => 38000,
+                'max_salary' => 52000,
+                'company' => 1, // ID de la société à associer
+            ],
+            [
+                'title' => 'Responsable Infrastructure IT',
+                'description' => 'Gérer l’infrastructure IT de l’entreprise, superviser les serveurs, les réseaux et assurer la disponibilité des services.',
+                'location' => 'Paris, France',
+                'experiences' => 6,
+                'min_salary' => 55000,
+                'max_salary' => 75000,
+                'company' => 1, // ID de la société à associer
+            ]
+        ];
+
+        // Insertion des postes dans la base de données
+        $now = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
+        foreach ($postes as $poste) {
+            $this->addSql(
+                'INSERT INTO poste (title, description, location, experiences, min_salary, max_salary, company_id, created_at, updated_at) 
+        VALUES (:title, :description, :location, :experiences, :min_salary, :max_salary, :company_id, :created_at, :updated_at)',
+                [
+                    'title' => $poste['title'],
+                    'description' => $poste['description'],
+                    'location' => $poste['location'],
+                    'experiences' => $poste['experiences'],
+                    'min_salary' => $poste['min_salary'],
+                    'max_salary' => $poste['max_salary'],
+                    'company_id' => $poste['company'],
                     'created_at' => $now,
                     'updated_at' => $now,
                 ]
