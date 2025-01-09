@@ -1,54 +1,65 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/app.html.twig' %}
 
-{% block title %}Poste{% endblock %}
 
-{% block body %}
-    <h1>Poste</h1>
+{% block title %}Fiche de poste
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ poste.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ poste.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ poste.description }}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ poste.location }}</td>
-            </tr>
-            <tr>
-                <th>Experiences</th>
-                <td>{{ poste.experiences }}</td>
-            </tr>
-            <tr>
-                <th>Min_salary</th>
-                <td>{{ poste.minSalary }}</td>
-            </tr>
-            <tr>
-                <th>Max_salary</th>
-                <td>{{ poste.maxSalary }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ poste.createdAt ? poste.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Updated_at</th>
-                <td>{{ poste.updatedAt ? poste.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% endblock %}
 
-    <a href="{{ path('app_poste_index') }}">back to list</a>
+{% block main %}
 
-    <a href="{{ path('app_poste_edit', {'id': poste.id}) }}">edit</a>
+	<main id="main" class="main">
 
-    {{ include('poste/_delete_form.html.twig') }}
+
+		<h1>Fiche de poste</h1>
+
+		<table class="table">
+			<tbody>
+				{# <tr>
+													<th>Id</th>
+													<td>{{ poste.id }}</td>
+												</tr> #}
+				<tr>
+					<th>Titre</th>
+					<td>{{ poste.title }}</td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td>{{ poste.description }}</td>
+				</tr>
+				<tr>
+					<th>Adresse</th>
+					<td>{{ poste.location }}</td>
+				</tr>
+				<tr>
+					<th>Années d'expérience requises</th>
+					<td>{{ poste.experiences }}
+						ans</td>
+				</tr>
+				<tr>
+					<th>Salaire minimum</th>
+					<td>{{ poste.minSalary }}</td>
+				</tr>
+				<tr>
+					<th>Samaire Maximum</th>
+					<td>{{ poste.maxSalary }}</td>
+				</tr>
+				<tr>
+					<th>Créé le</th>
+					<td>{{ poste.createdAt ? poste.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+				</tr>
+				<tr>
+					<th>Modifié dernièrement le</th>
+					<td>{{ poste.updatedAt ? poste.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<a href="{{ path('app_poste_index') }}">Retourner en arrière</a>
+
+		<a href="{{ path('app_poste_edit', {'id': poste.id}) }}">Modifier</a>
+
+		{# {{ include('poste/_delete_form.html.twig') }} #}
+
+	</main>
+
 {% endblock %}
