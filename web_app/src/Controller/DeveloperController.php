@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Developer;
 use App\Form\DeveloperType;
 use App\Repository\DeveloperRepository;
+use App\Repository\PosteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,13 @@ use Symfony\Component\Routing\Attribute\Route;
 final class DeveloperController extends AbstractController
 {
     #[Route(name: 'app_developer_home', methods: ['GET'])]
-    public function index(DeveloperRepository $developerRepository): Response
+    public function index(DeveloperRepository $developerRepository, PosteRepository $posteRepository): Response
     {
-        return $this->render('developers/profile.html.twig', [
+        return $this->render('developers/home.html.twig', [
             'developers' => $developerRepository->findAll(),
+            // 'developers' => $developerRepository->findLatestVisiteAndLike(),
+            // 'bestPostes' => $posteRepository->findBest(),
+            // 'latestPostes' => $posteRepository->findLatest(),
         ]);
     }
 
@@ -50,7 +54,7 @@ final class DeveloperController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_developer_profile', methods: ['GET'])]
+    #[Route('/{id}/profile', name: 'app_developer_profile', methods: ['GET'])]
     public function profile(Request $request, Developer $developer, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(DeveloperType::class, $developer);
