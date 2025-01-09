@@ -40,5 +40,6 @@ class SecurityController extends AbstractController
         if ($security->isGranted('ROLE_COMPANY')) {
             return $this->redirectToRoute('app_company_home');
         }
+        return $this->redirectToRoute('app_login');
     }
 }
