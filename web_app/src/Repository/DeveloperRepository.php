@@ -40,4 +40,8 @@ class DeveloperRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findLatestVisiteAndLike(int $limite): array {
+
+        return [];
+    }
 }

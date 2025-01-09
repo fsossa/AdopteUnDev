@@ -20,9 +20,9 @@ final class DeveloperController extends AbstractController
     {
         return $this->render('developers/home.html.twig', [
             'developers' => $developerRepository->findAll(),
-            // 'developers' => $developerRepository->findLatestVisiteAndLike(),
-            // 'bestPostes' => $posteRepository->findBest(),
-            // 'latestPostes' => $posteRepository->findLatest(),
+            'latestVisiteAndLike' => $developerRepository->findLatestVisiteAndLike(5),
+            'bestPostes' => $posteRepository->findBest(3),
+            'latestPostes' => $posteRepository->findLatest(3),
         ]);
     }
 
