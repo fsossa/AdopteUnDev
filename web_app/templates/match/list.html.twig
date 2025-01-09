@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Match de Postes{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Postes correspondant aux compétences de {{ developer.firstname }} {{ developer.lastname }}</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('warning') %}
+            <div class="alert alert-warning">{{ message }}</div>
+        {% endfor %}
+
+        {% if matches is empty %}
+            <p>Aucun poste correspondant trouvé.</p>
+        {% else %}
+            <div class="row">
+                {% for match in matches %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ match.poste.title }}</h5>
+                                <p class="card-text">{{ match.poste.description }}</p>
+                                <p><strong>Lieu :</strong> {{ match.poste.location }}</p>
+                                <p><strong>Expérience requise :</strong> {{ match.poste.experiences }} années</p>
+                                <p><strong>Salaire :</strong> {{ match.poste.minSalary ? match.poste.minSalary ~ ' - ' ~ match.poste.maxSalary : 'N/A' }}</p>
+                                <p><strong>Compétences requises :</strong>
+                                    {% for skill in match.poste.skills %}
+                                        {{ skill.name }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                </p>
+                                <p><strong>Score de correspondance :</strong> {{ match.percentage|number_format(2) }}%</p>
+                                
+                                {# Vérifier si le poste est déjà favori #}
+                                {% set is_fav = false %}
+                                {% for fav in developer.developerFavPostes %}
+                                    {% if fav.poste.id == match.poste.id %}
+                                        {% set is_fav = true %}
+                                        {% break %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if is_fav %}
+                                    {# Bouton pour supprimer des favoris #}
+                                    <form action="{{ path('favourite_remove', {'developerId': developer.id, 'posteId': match.poste.id}) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce favori ?');">Supprimer des favoris</button>
+                                    </form>
+                                {% else %}
+                                    {# Bouton pour ajouter aux favoris #}
+                                    <form action="{{ path('favourite_add', {'developerId': developer.id, 'posteId': match.poste.id}) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-primary btn-sm">Ajouter aux favoris</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
