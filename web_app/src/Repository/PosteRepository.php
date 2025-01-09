@@ -41,12 +41,12 @@ class PosteRepository extends ServiceEntityRepository
     //        ;
     //    }
     
-    public function bestPostes(int $limite): array {
+    public function findBest(int $limite): array {
         
         return [];
     }
     
-    public function latestPostes(int $limite): array {
+    public function findLatest(int $limite): array {
         
         return [];
     }
