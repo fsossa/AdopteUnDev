@@ -48,6 +48,7 @@
 				<div class="row d-flex flex-wrap">
 					{% for poste in postes %}
 						<div class="col-md-4 mb-4">
+
 							<div
 								class="card">
 								{# <img src="https://via.placeholder.com/150" class="card-img-top" alt="Image de l'offre"> #}
@@ -55,23 +56,27 @@
 									<h5 class="card-title display-6">{{ poste.title }}</h5>
 
 									<p class="card-text">{{ poste.description }}</p>
-									<small class="text-muted mb-4">{{ poste.getCreatedAt()|diffForHumans }}
-										-
-										{{ poste.location }}</small>
+									<div class="d-flex justify-content-between align-items-center mb-4">
+										<div class="location">
+											<i class="bi bi-geo-alt"></i>
+											{{ poste.location }}
+										</div>
+										<small class="text-muted">{{ poste.getCreatedAt()|diffForHumans }}</small>
+									</div>
 
-
-									<div class="mt-auto ">
-										<a class="btn btn-warning btn-sm" href="{{ path('app_poste_show', {'id': poste.id}) }}">
+									<div class="d-flex justify-content-end gap-2">
+										<a class="btn btn-primary btn-sm" href="{{ path('app_poste_show', {'id': poste.id}) }}">
 											<i class="bi bi-eye"></i>
 										</a>
 
-										<a class="btn btn-danger btn-sm" href="{{ path('app_poste_edit', {'id': poste.id}) }}">
-											<i class="bi bi-trash"></i>
+										<a class="btn btn-warning btn-sm" href="{{ path('app_poste_edit', {'id': poste.id}) }}">
+											<i class="bi bi-pencil"></i>
 										</a>
 									</div>
-
 								</div>
 							</div>
+
+
 						</div>
 					{% else %}
 						<div class="col-12">
