@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use function Symfony\Component\Clock\now;
+
 #[ORM\Entity(repositoryClass: PosteRepository::class)]
 class Poste
 {
@@ -55,7 +57,7 @@ class Poste
      */
     #[ORM\ManyToMany(targetEntity: Skill::class, mappedBy: 'postes_has_skills')]
     private Collection $skills;
-    
+
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
@@ -81,7 +83,11 @@ class Poste
         $this->skills = new ArrayCollection();
         $this->developerFavPostes = new ArrayCollection();
         $this->developerVisitePostes = new ArrayCollection();
+        $this->created_at = now();
+        $this->updated_at = now();
     }
+
+
 
     public function getId(): ?int
     {
