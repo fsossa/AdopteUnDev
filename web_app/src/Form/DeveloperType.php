@@ -29,10 +29,14 @@ class DeveloperType extends AbstractType
             ->add('avatar', FileType::class, [
                 'label' => 'Avatar (Image file)',
                 'required' => false,
-                'mapped' => false, // Le champ n'est pas mappé à une propriété de l'entité
+                'mapped' => false,
                 'constraints' => [
                     new \Symfony\Component\Validator\Constraints\Image([
                         'maxSize' => '2M',
+                    ]),
+                    new \Symfony\Component\Validator\Constraints\File([
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif'],
+                        'mimeTypesMessage' => 'Merci d\'ajouter un fichier image valide(jpeg, png, gif).',
                     ]),
                 ],
             ])
@@ -42,7 +46,7 @@ class DeveloperType extends AbstractType
             // ])
             ->add('skills', EntityType::class, [
                 'class' => Skill::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'multiple' => true,
             ])
             // ->add('my_notes', EntityType::class, [

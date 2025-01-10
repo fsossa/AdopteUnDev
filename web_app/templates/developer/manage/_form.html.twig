@@ -1,5 +1,87 @@
 {{ form_start(form) }}
-{{ form_widget(form) }}
-<button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}.
+<div class="container">
+	<div class="row mb-3">
+		<div class="col-md-6">
+			{{ form_row(form.firstname, { 
+                'label': 'Prénoms', 
+                'attr': {'class': 'form-control'} 
+            }) }}
+		</div>
+		<div class="col-md-6">
+			{{ form_row(form.lastname, { 
+                'label': 'Nom', 
+                'attr': {'class': 'form-control'} 
+            }) }}
+		</div>
+	</div>
 
+	<div class="row mb-3">
+		<div class="col-md-6">
+			{{ form_row(form.birthday, { 
+                'label': 'Date de naissance', 
+                'attr': {'class': 'form-control'} 
+            }) }}
+		</div>
+		<div class="col-md-6">
+			{{ form_row(form.gender, { 
+                'label': 'Sexe', 
+                'attr': {'class': 'form-control'} 
+            }) }}
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<div class="col-md-6">
+			{{ form_row(form.experiences, { 
+                'label': 'Nombre d\'années  d\'expériences', 
+                'attr': {'class': 'form-control'} 
+            }) }}
+		</div>
+		<div class="col-md-6">
+			{{ form_row(form.salary, { 
+                'label': 'Salaire Minimum', 
+                'attr': {'class': 'form-control'} 
+            }) }}
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<div class="col-md-12">
+			{{ form_row(form.biography, { 
+                'label': 'Biographie', 
+                'attr': {'class': 'form-control'} 
+            }) }}
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<div class="col-md-6">
+			{{ form_row(form.location, { 
+                'label': 'Adresse', 
+                'attr': {'class': 'form-control'} 
+            }) }}
+		</div>
+		<div class="col-md-6">
+			{{ form_row(form.avatar, { 
+                'label': 'Avatar (Image)', 
+                'attr': {'class': 'form-control'} 
+            }) }}
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<div class="col-md-12">
+			{{ form_row(form.skills, { 
+                'label': 'Compétences', 
+                'attr': {'class': 'form-control'} 
+            }) }}
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<div class="col-md-12 text-center">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+	</div>
+</div>
+{{ form_end(form) }}
