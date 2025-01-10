@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CompanyVisiteDeveloper;
+use App\Entity\Developer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +41,21 @@ class CompanyVisiteDeveloperRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function addView(CompanyVisiteDeveloper $view ,Developer $dev): void
+    {
+        $view = new CompanyVisiteDeveloper($view);
+        $dev = new Developer($dev);
+        $this->_em->persist($view,$dev);
+        $this->_em->flush();
+    }
+    public function countViews(CompanyVisiteDeveloper $view): int
+    {
+        return $this->createQueryBuilder('v')
+            ->select('COUNT(v.id)')
+            ->where('v.dev = :dev')
+            ->setParameter('dev', $view)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

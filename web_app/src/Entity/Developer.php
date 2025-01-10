@@ -29,10 +29,10 @@ class Developer
     private ?string $gender = null;
 
     #[ORM\Column]
-    private ?int $experiences = null;
+    private ?int $experiences = 0;
 
     #[ORM\Column]
-    private ?int $salary = null;
+    private ?int $salary = 0;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $biography = null;
