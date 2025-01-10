@@ -14,7 +14,7 @@ final class Version20250107220547 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Ajout de 40 nouvelles compétences avec descriptions dans la table Skill';
     }
 
     public function up(Schema $schema): void
