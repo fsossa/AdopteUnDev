@@ -277,7 +277,12 @@
 
 							<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
 								<img src="{{ asset('theme/app/assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
-								<span class="d-none d-md-block dropdown-toggle ps-2">{{app.user.developer.firstname}}</span>
+								{% if is_granted('ROLE_DEV') %}
+									<span class="d-none d-md-block dropdown-toggle ps-2">{{app.user.developer.firstname}}</span>
+								{% endif %}
+								{% if is_granted('ROLE_COMPANY') %}
+									<span class="d-none d-md-block dropdown-toggle ps-2">{{app.user.company.name}}</span>
+								{% endif %}
 							</a>
 							<!-- End Profile Iamge Icon -->
 
@@ -290,7 +295,7 @@
 									{% endif %}
 									{% if is_granted('ROLE_COMPANY') %}
 										<h6>{{app.user.company.name}}</h6>
-										<span>"Entreprise"</span>
+										<span>Entreprise</span>
 									{% endif %}
 								</li>
 								<li>
@@ -302,12 +307,11 @@
 																			{{ dump(app.user) }}
 																		</pre> #}
 									{% if is_granted('ROLE_DEV') %}
-										<a class="dropdown-item d-flex align-items-center" href="{{ path('app_developer_update', {'id': app.user.developer.id} )}}">
-
-										{% endif %}
-										{% if is_granted('ROLE_COMPANY') %}
-											<a class="dropdown-item d-flex align-items-center" href="{{ path('app_company_profile', {'id': app.user.company.id} )}}">
-											{% endif %}
+										<a class="dropdown-item d-flex align-items-center" href="{{ path('app_developer_profile')}}">
+									{% endif %}
+									{% if is_granted('ROLE_COMPANY') %}
+										<a class="dropdown-item d-flex align-items-center" href="{{ path('app_company_profile')}}">
+									{% endif %}
 											<i class="bi bi-person"></i>
 											<span>Mon Profil</span>
 										</a>
