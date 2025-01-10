@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FavouritePosteController extends AbstractController
+final class FavouritePosteController extends AbstractController
 {
      // Route pour lister les favoris
     /**

@@ -22,6 +22,22 @@ final class PosteController extends AbstractController
         ]);
     }
 
+    #[Route('/match', name: 'app_poste_match', methods: ['GET'])]
+    public function match(PosteRepository $posteRepository): Response
+    {
+        $authUser = $this->getUser();
+        $postes = $posteRepository->matchPostes($authUser);
+        // if ($this->isGranted('ROLE_DEV')) {
+        //     $postes = $posteRepository->matchPostes($authUser);
+        // }
+        // if ($this->isGranted('ROLE_COMPANY')) {
+        //     $postes = $posteRepository->matchDev();
+        // }
+        return $this->render('poste/index.html.twig', [
+            'postes' => $postes,
+        ]);
+    }
+
     #[Route('/new', name: 'app_poste_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
