@@ -40,14 +40,25 @@ class PosteRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    
-    public function findBest(int $limite): array {
-        
-        return [];
+
+    public function findBest(int $limite): array
+    {
+        return $this->createQueryBuilder('v')
+            ->select('p')
+            ->join('v.poste', 'p') 
+            ->groupBy('p.id')
+            ->orderBy('COUNT(v.id)', 'DESC')
+            ->setMaxResults($limite)
+            ->getQuery()
+            ->getResult();
     }
-    
-    public function findLatest(int $limite): array {
-        
-        return [];
+
+    public function findLatest(int $limite): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults($limite)
+            ->getQuery()
+            ->getResult();
     }
 }
