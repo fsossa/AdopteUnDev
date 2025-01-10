@@ -40,8 +40,25 @@ class DeveloperRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function findLatestVisiteAndLike(int $limite): array {
+    public function findLatestVisiteAndLike(int $limite): array 
+    {
+        return $this->createQueryBuilder('d')
+        ->orderBy('d.id', 'DESC')
+        ->setMaxResults($limite)
+        ->getQuery()
+        ->getResult();
 
-        return [];
     }
+    public function findBest(int $limite): array
+{
+    return $this->createQueryBuilder('poste')
+        ->select('dev, COUNT(companyVisitDev.id) AS viewCount') 
+        ->join('companyVisitDev.developer', 'dev') 
+        ->groupBy('dev.id') 
+        ->orderBy('viewCount', 'DESC') 
+        ->setMaxResults($limite) 
+        ->getQuery()
+        ->getResult();
+}
+  
 }
