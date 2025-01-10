@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Poste;
+use App\Entity\Skill;
 use App\Form\PosteType;
 use App\Repository\PosteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,6 +23,28 @@ final class PosteController extends AbstractController
         ]);
     }
 
+    // #[Route('/new', name: 'app_poste_new', methods: ['GET', 'POST'])]
+    // public function new(Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     $poste = new Poste();
+    //     $form = $this->createForm(PosteType::class, $poste);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->persist($poste);
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('app_poste_index', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->render('poste/new.html.twig', [
+    //         'poste' => $poste,
+    //         'form' => $form,
+    //     ]);
+    // }
+
+
+
     #[Route('/new', name: 'app_poste_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -30,9 +53,15 @@ final class PosteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $skills = $form->get('skills')->getData();
+            foreach ($skills as $skill) {
+                $poste->addSkill($skill);
+            }
+
             $entityManager->persist($poste);
             $entityManager->flush();
 
+            // Redirection après la soumission du formulaire
             return $this->redirectToRoute('app_poste_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -41,6 +70,8 @@ final class PosteController extends AbstractController
             'form' => $form,
         ]);
     }
+
+
 
     #[Route('/{id}', name: 'app_poste_show', methods: ['GET'])]
     public function show(Poste $poste): Response
@@ -71,7 +102,7 @@ final class PosteController extends AbstractController
     #[Route('/{id}', name: 'app_poste_delete', methods: ['POST'])]
     public function delete(Request $request, Poste $poste, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$poste->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $poste->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($poste);
             $entityManager->flush();
         }
