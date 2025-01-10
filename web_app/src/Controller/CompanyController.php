@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Entity\Developer;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use App\Repository\PosteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +17,13 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CompanyController extends AbstractController
 {
     #[Route(name: 'app_company_home', methods: ['GET'])]
-    public function index(CompanyRepository $companyRepository): Response
+    public function index(CompanyRepository $companyRepository, PosteRepository $posteRepository): Response
     {
-        return $this->render('company/index.html.twig', [
+        return $this->render('company/home.html.twig', [
             'companies' => $companyRepository->findAll(),
+            // 'latestVisiteAndLike' => $companyRepository->findLatestVisiteAndLike(5),
+            // 'bestPostes' => $posteRepository->findBest(3),
+            // 'latestPostes' => $posteRepository->findLatest(3),
         ]);
     }
 
@@ -42,29 +47,28 @@ final class CompanyController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
-    public function show(Company $company): Response
-    {
-        // dd($company);
-        return $this->render('company/show.html.twig', [
-            'company' => $company,
-        ]);
-    }
+    // #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
+    // public function show(Company $company): Response
+    // {
+    //     // dd($company);
+    //     return $this->render('company/show.html.twig', [
+    //         'company' => $company,
+    //     ]);
+    // }
 
-    #[Route('/{id}/update', name: 'app_company_update', methods: ['GET', 'POST'])]
-    public function update(Request $request, Company $company, EntityManagerInterface $entityManager): Response
+    #[Route('/profile/', name: 'app_company_profile', methods: ['GET', 'POST'])]
+    public function profile(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $company = $this->getUser()->getCompany();
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_company_profile', [], Response::HTTP_SEE_OTHER);
         }
-
-
-        return $this->render('company/show.html.twig', [
+        return $this->render('company/profile.html.twig', [
             'company' => $company,
             'form' => $form,
         ]);

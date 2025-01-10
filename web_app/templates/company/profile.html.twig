@@ -1,15 +1,15 @@
 {% extends 'layouts/app.html.twig' %}
 
-
-{% block title %}Profil - Developpeur
-
+{% block title %}Profil - Compagnie
 {% endblock %}
 
+
 {% block main %}
+
 	<main id="main" class="main">
 
 		<div class="pagetitle">
-			<h1>Profil - Développeur</h1>
+			<h1>Profile</h1>
 			<nav class="d-flex justify-content-between align-items-center">
 				<ol class="breadcrumb m-0">
 					<li class="breadcrumb-item">
@@ -21,6 +21,7 @@
 			</nav>
 		</div>
 
+		<!-- End Page Title -->
 
 		<section class="section profile">
 			<div class="row">
@@ -28,12 +29,9 @@
 
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-							{% if developer.avatar %}
-								<img src="{{ asset('uploads/dev_avatars/' ~ developer.avatar) }}" alt="Avatar" class="rounded-circle"/>
-							{% endif %}
 
-							{# <img src="assets/img/profile-img.jpg" alt="Logo" class="rounded-circle"> #}
-							<h2>{{developer.firstname}}
+							<img src="assets/img/profile-img.jpg" alt="Logo" class="rounded-circle">
+							<h2>{{company.name}}
 
 							</h2>
 							<h3>Web Designer</h3>
@@ -80,62 +78,49 @@
 							<div class="tab-content pt-2">
 
 								<div class="tab-pane fade show active profile-overview" id="profile-overview">
-
-									<h5 class="card-title">Biographie</h5>
+									<h5 class="card-title">A Propos</h5>
 									<p class="small fst-italic">
-										{{ developer.biography }}</p>
+										{{ company.description }}</p>
 
-									<h5 class="card-title">Détails du Développeur</h5>
+									<h5 class="card-title">Détails de l'entreprise</h5>
 
 									<div class="row">
-										<div class="col-lg-3 col-md-4 label">Genre</div>
+										<div class="col-lg-3 col-md-4 label">Compagnie</div>
 										<div class="col-lg-9 col-md-8">
-											{{ developer.gender }}</div>
-									</div>
-
-									<div class="row">
-										<div class="col-lg-3 col-md-4 label">Nom</div>
-										<div class="col-lg-9 col-md-8">
-											{{ developer.lastname }}</div>
+											{{ company.name }}</div>
 									</div>
 
 
 									<div class="row">
-										<div class="col-lg-3 col-md-4 label">Prénoms</div>
-										<div class="col-lg-9 col-md-8">{{developer.firstname}}</div>
-									</div>
-
-									<div class="row">
-										<div class="col-lg-3 col-md-4 label">Date de naissance</div>
-										<div class="col-lg-9 col-md-8">{{ developer.birthday }}
-										</div>
+										<div class="col-lg-3 col-md-4 label">Pays</div>
+										<div class="col-lg-9 col-md-8">FRANCE</div>
 									</div>
 
 									<div class="row">
 										<div class="col-lg-3 col-md-4 label">Addresse</div>
-										<div class="col-lg-9 col-md-8">{{ developer.location }}
+										<div class="col-lg-9 col-md-8">{{ company.location }}
 										</div>
 									</div>
 
 									<div class="row">
-										<div class="col-lg-3 col-md-4 label">Salaire</div>
-										<div class="col-lg-9 col-md-8">{{ developer.salary }}</div>
+										<div class="col-lg-3 col-md-4 label">Contacts</div>
+										<div class="col-lg-9 col-md-8">
+											+3306000000
+										</div>
 
 									</div>
 
 									<div class="row">
-										<div class="col-lg-3 col-md-4 label">Nombre Année d'expériences</div>
-										<div class="col-lg-9 col-md-8">{{ developer.experiences }}</div>
-
+										<div class="col-lg-3 col-md-4 label">Email</div>
+										<div class="col-lg-9 col-md-8">k.anderson@example.com</div>
 									</div>
-
 
 								</div>
 
 
 								<div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-									{{ include('developer/manage/_form.html.twig', {'button_label': 'Sauvegarder les modifications'}) }}
+									{{ include('company/_form.html.twig', {'button_label': 'Sauvegarder les modifications'}) }}
 
 
 								</div>
@@ -185,11 +170,5 @@
 			</div>
 		</section>
 
-
-		{# <a href="{{ path('app_home_index') }}">back to list</a>
-																																																													
-																																																													    <a href="{{ path('app_home_edit', {'id': developer.id}) }}">edit</a>
-																																																													
-																																																													    {{ include('home/_delete_form.html.twig') }} #}
 	</main>
 {% endblock %}
