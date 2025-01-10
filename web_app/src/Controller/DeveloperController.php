@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/developer/'), ]
+#[Route('/app/developer'),]
 final class DeveloperController extends AbstractController
 {
     #[Route(name: 'app_developer_home', methods: ['GET'])]
@@ -53,6 +53,39 @@ final class DeveloperController extends AbstractController
             'developer' => $developer,
         ]);
     }
+
+
+    #[Route('/{id}/update', name: 'app_developer_update', methods: ['GET', 'POST'])]
+    public function update(Request $request, Developer $developer, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(DeveloperType::class, $developer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $avatarFile = $form->get('avatar')->getData();
+            if ($avatarFile) {
+                $filename = uniqid() . '.' . $avatarFile->guessExtension();
+
+                $avatarFile->move(
+                    $this->getParameter('avatars_directory'),
+                    $filename
+                );
+            }
+                // Enregistrer le nom du fichier dans l'entité
+                $developer->setAvatar($filename);
+                
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_developer_profile', [], Response::HTTP_SEE_OTHER);
+        }
+
+
+        return $this->render('developer/manage/show.html.twig', [
+            'developer' => $developer,
+            'form' => $form,
+        ]);
+    }
+
 
     #[Route('/{id}/profile', name: 'app_developer_profile', methods: ['GET'])]
     public function profile(Request $request, Developer $developer, EntityManagerInterface $entityManager): Response

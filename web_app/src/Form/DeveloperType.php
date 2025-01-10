@@ -7,6 +7,7 @@ use App\Entity\Skill;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,7 +26,16 @@ class DeveloperType extends AbstractType
             ->add('salary')
             ->add('biography')
             ->add('location')
-            ->add('avatar')
+            ->add('avatar', FileType::class, [
+                'label' => 'Avatar (Image file)',
+                'required' => false,
+                'mapped' => false, // Le champ n'est pas mappé à une propriété de l'entité
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Image([
+                        'maxSize' => '2M',
+                    ]),
+                ],
+            ])
             // ->add('user', EntityType::class, [
             //     'class' => User::class,
             //     'choice_label' => 'id',
