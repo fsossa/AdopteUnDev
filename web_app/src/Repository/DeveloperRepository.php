@@ -40,7 +40,7 @@ class DeveloperRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function findLatestVisite(int $limite): array 
+    public function findLatestVisiteAndLike(int $limite): array 
     {
         return $this->createQueryBuilder('d')
         ->orderBy('d.id', 'DESC')
@@ -49,17 +49,16 @@ class DeveloperRepository extends ServiceEntityRepository
         ->getResult();
 
     }
-    public function findBest(int $limite): array 
-    { 
-         return $this->createQueryBuilder('v')
-        ->select('p')
-        ->join('v.developer', 'p') 
-        ->groupBy('p.id')
-        ->orderBy('COUNT(v.id)', 'DESC')
-        ->setMaxResults($limite)
+    public function findBest(int $limite): array
+{
+    return $this->createQueryBuilder('poste')
+        ->select('dev, COUNT(companyVisitDev.id) AS viewCount') 
+        ->join('companyVisitDev.developer', 'dev') 
+        ->groupBy('dev.id') 
+        ->orderBy('viewCount', 'DESC') 
+        ->setMaxResults($limite) 
         ->getQuery()
         ->getResult();
-
-    }
+}
   
 }
