@@ -43,14 +43,19 @@ class PosteRepository extends ServiceEntityRepository
 
     public function findBest(int $limite): array
     {
-        return $this->createQueryBuilder('poste')
-            ->select('poste', 'COUNT(developerVisitePostes.id) AS visites_count')
-            ->join('poste.developerVisitePostes', 'developerVisitePostes') 
-            ->groupBy('poste.id')
-            ->orderBy('COUNT(poste.id)', 'DESC')
-            ->setMaxResults($limite)
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC') // Trier par date de création décroissante
+            ->setMaxResults(3) // Limiter à 3 résultats
             ->getQuery()
             ->getResult();
+        // return $this->createQueryBuilder('poste')
+        //     ->select('poste', 'COUNT(developerVisitePostes.id) AS visites_count')
+        //     ->join('poste.developerVisitePostes', 'developerVisitePostes') 
+        //     ->groupBy('poste.id')
+        //     ->orderBy('COUNT(poste.id)', 'DESC')
+        //     ->setMaxResults($limite)
+        //     ->getQuery()
+        //     ->getResult();
     }
 
     public function findLatest(int $limite): array
