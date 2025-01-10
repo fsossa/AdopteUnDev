@@ -1,0 +1,90 @@
+{% extends 'layouts/auth.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center">
+    <div class="row shadow-lg rounded overflow-hidden w-75">
+        {# <div class="col-md-5 bg-primary text-white d-flex flex-column justify-content-center align-items-center p-5"> #}
+        <div class="col-md-5 bg-img text-white d-flex flex-column justify-content-center align-items-center p-5">
+            <h1 class="fw-bold text-center">Démarrez votre voyage avec nous</h1>
+        </div>
+        <div class="col-md-7 bg-white p-5">
+            {{ form_errors(registrationForm) }}
+            {{ form_errors(registrationFormCompany) }}
+            <h2 class="fw-bold">Commençons!</h2>
+            <p class="text-muted">Créez un compte pour continuer</p>
+            <div class="d-flex justify-content-start mb-4">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="profileType" id="developer" value="developer" checked>
+                    <label class="form-check-label fw-bold" for="developer">Développeur</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="profileType" id="company" value="company">
+                    <label class="form-check-label fw-bold" for="company">Entreprise</label>
+                </div>
+            </div>
+            
+            <div id="developerForm">
+                {# <form> #}
+                {{ form_start(registrationForm) }}
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.firstname)}}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.lastname)}}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.email)}}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.plainPassword)}}
+                    </div>
+                    {{ form_row(registrationForm.agreeTerms) }}
+                    <button type="submit" class="btn btn-primary w-100">Créer le compte</button>
+                {{ form_end(registrationForm) }}
+                {# </form> #}
+            </div>
+
+            <div id="companyForm" class="d-none">
+                {# <form> #}
+                {{ form_start(registrationFormCompany) }}
+                    <div class="mb-3">
+                        {{ form_row(registrationFormCompany.name)}}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(registrationFormCompany.location)}}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(registrationFormCompany.email)}}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(registrationFormCompany.plainPassword)}}
+                    </div>
+                    {{ form_row(registrationFormCompany.agreeTerms) }}
+                    <button type="submit" class="btn btn-primary w-100">Créer le compte</button>
+                {{ form_end(registrationFormCompany) }}
+                {# </form> #}
+            </div>
+            <p class="mt-3 text-center">Déjà un compte ? <a href="/login" class="text-primary">Connectez-vous</a></p>
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('input[name="profileType"]').forEach((elem) => {
+        elem.addEventListener("change", function(event) {
+            if (event.target.value === "developer") {
+                document.getElementById("developerForm").classList.remove("d-none");
+                document.getElementById("companyForm").classList.add("d-none");
+            } else {
+                document.getElementById("companyForm").classList.remove("d-none");
+                document.getElementById("developerForm").classList.add("d-none");
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,33 @@
+
+    <div class="card fixed-height-card">
+        <img src="{{ asset('assets/images/ic_poste.jpg') }}" class="card-img-top" alt="Image de l'offre">
+        <div class="card-body">
+            <h5 class="card-title display-6">{{ poste.title }}</h5>
+
+          <p class="card-text">{{ poste.description|slice(0,80) }}...</p>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center me-4">
+                    {# <i class="bi bi-geo-alt"></i>
+                    <span class="ms-2">{{ poste.location }}</span> #}
+                </div>
+                <small class="text-muted">{{ poste.getCreatedAt()|diffForHumans }}</small>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex gap-2">
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_poste_show', {'id': poste.id}) }}">
+                        <i class="bi bi-eye"></i>
+                    </a>
+
+                    <a class="btn btn-warning btn-sm" href="{{ path('app_poste_edit', {'id': poste.id}) }}">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-geo-alt"></i>
+                    <span class="ms-2">{{ poste.location }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
