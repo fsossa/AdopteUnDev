@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Entity\Developer;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use App\Repository\PosteRepository;
@@ -46,17 +47,17 @@ final class CompanyController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
-    public function show(Company $company): Response
-    {
-        // dd($company);
-        return $this->render('company/show.html.twig', [
-            'company' => $company,
-        ]);
-    }
+    // #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
+    // public function show(Company $company): Response
+    // {
+    //     // dd($company);
+    //     return $this->render('company/show.html.twig', [
+    //         'company' => $company,
+    //     ]);
+    // }
 
-    #[Route('/app/profile', name: 'app_company_profile', methods: ['GET', 'POST'])]
-    public function update(Request $request, EntityManagerInterface $entityManager, CompanyRepository $companyRepository): Response
+    #[Route('/profile/', name: 'app_company_profile', methods: ['GET', 'POST'])]
+    public function profile(Request $request, EntityManagerInterface $entityManager): Response
     {
         $company = $this->getUser()->getCompany();
         $form = $this->createForm(CompanyType::class, $company);
@@ -67,8 +68,6 @@ final class CompanyController extends AbstractController
 
             return $this->redirectToRoute('app_company_profile', [], Response::HTTP_SEE_OTHER);
         }
-
-
         return $this->render('company/profile.html.twig', [
             'company' => $company,
             'form' => $form,

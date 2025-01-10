@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/app/developer'), ]
+#[Route('/app/developer')]
 final class DeveloperController extends AbstractController
 {
     #[Route(name: 'app_developer_home', methods: ['GET'])]
@@ -46,17 +46,18 @@ final class DeveloperController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_developer_show', methods: ['GET'])]
-    public function show(Developer $developer): Response
-    {
-        return $this->render('developer/show.html.twig', [
-            'developer' => $developer,
-        ]);
-    }
+    // #[Route('/{id}', name: 'app_developer_show', methods: ['GET'])]
+    // public function show(Developer $developer): Response
+    // {
+    //     return $this->render('developer/show.html.twig', [
+    //         'developer' => $developer,
+    //     ]);
+    // }
 
-    #[Route('/profile', name: 'app_developer_profile', methods: ['GET'])]
-    public function profile(Request $request, EntityManagerInterface $entityManager, DeveloperRepository $developerRepository): Response
+    #[Route('/profile', name: 'app_developer_profile', methods: ['GET', 'POST'])]
+    public function profile(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // dd($request);
         $developer = $this->getUser()->getDeveloper();
         $form = $this->createForm(DeveloperType::class, $developer);
         $form->handleRequest($request);
