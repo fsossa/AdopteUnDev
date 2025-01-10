@@ -57,22 +57,54 @@ final class DeveloperController extends AbstractController
     #[Route('/profile', name: 'app_developer_profile', methods: ['GET', 'POST'])]
     public function profile(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // dd($request);
         $developer = $this->getUser()->getDeveloper();
         $form = $this->createForm(DeveloperType::class, $developer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $avatarFile = $form->get('avatar')->getData();
+            if ($avatarFile) {
+                $filename = uniqid() . '.' . $avatarFile->guessExtension();
+
+                $avatarFile->move(
+                    $this->getParameter('avatars_directory'),
+                    $filename
+                );
+            }
+                // Enregistrer le nom du fichier dans l'entité
+                $developer->setAvatar($filename);
+                
             $entityManager->flush();
 
             return $this->redirectToRoute('app_developer_profile', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('developer/profile.html.twig', [
+
+        return $this->render('developer/manage/show.html.twig', [
             'developer' => $developer,
             'form' => $form,
         ]);
     }
+
+    // #[Route('/profile', name: 'app_developer_profile', methods: ['GET'])]
+    // public function profile(Request $request, EntityManagerInterface $entityManager, DeveloperRepository $developerRepository): Response
+    // {
+    //     // dd($request);
+    //     $developer = $this->getUser()->getDeveloper();
+    //     $form = $this->createForm(DeveloperType::class, $developer);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('app_developer_profile', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->render('developer/profile.html.twig', [
+    //         'developer' => $developer,
+    //         'form' => $form,
+    //     ]);
+    // }
 
     #[Route('/{id}/edit', name: 'app_developer_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Developer $developer, EntityManagerInterface $entityManager): Response
