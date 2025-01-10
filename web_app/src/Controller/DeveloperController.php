@@ -54,9 +54,10 @@ final class DeveloperController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/profile', name: 'app_developer_profile', methods: ['GET'])]
-    public function profile(Request $request, Developer $developer, EntityManagerInterface $entityManager): Response
+    #[Route('/profile', name: 'app_developer_profile', methods: ['GET'])]
+    public function profile(Request $request, EntityManagerInterface $entityManager, DeveloperRepository $developerRepository): Response
     {
+        $developer = $this->getUser()->getDeveloper();
         $form = $this->createForm(DeveloperType::class, $developer);
         $form->handleRequest($request);
 
