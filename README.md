@@ -26,8 +26,7 @@ Bienvenue sur le projet **AdopteUnDev** ! Ce projet vise à connecter les dével
 
     Configurez les variables d'environnement :
     Créez un fichier .env.local et configurez la connexion à la base de données :
-
-DATABASE_URL=postgresql://username:password@db:5432/adopteundev
+    DATABASE_URL=postgresql://username:password@db:5432/adopteundev
 
 Lancez les conteneurs avec Docker Compose :
 Cela démarrera les services nécessaires à l'application.
