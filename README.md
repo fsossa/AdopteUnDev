@@ -31,17 +31,17 @@ Bienvenue sur le projet **AdopteUnDev** ! Ce projet vise à connecter les dével
 Lancez les conteneurs avec Docker Compose :
 Cela démarrera les services nécessaires à l'application.
 
-docker-compose up -d
+    docker-compose up -d
 
 Installez les dépendances PHP :
 Exécutez Composer dans le conteneur pour installer les bibliothèques nécessaires.
 
-docker-compose exec app composer install
+    docker-compose exec app composer install
 
 Appliquez les migrations :
 Configurez la base de données en appliquant les migrations.
 
-docker-compose exec app php bin/console doctrine:migrations:migrate
+    docker-compose exec app php bin/console doctrine:migrations:migrate
 
 Accédez à l'application :
-Ouvrez votre navigateur et rendez-vous sur http://localhost:8000.
+    Ouvrez votre navigateur et rendez-vous sur http://localhost:8000.
