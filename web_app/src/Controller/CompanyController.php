@@ -6,6 +6,8 @@ use App\Entity\Company;
 use App\Entity\Developer;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use App\Repository\CompanyVisiteDeveloperRepository;
+use App\Repository\DeveloperRepository;
 use App\Repository\PosteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -85,8 +87,6 @@ final class CompanyController extends AbstractController
 
             return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
         }
-
-
         return $this->render('company/edit.html.twig', [
             'company' => $company,
             'form' => $form,
@@ -102,5 +102,29 @@ final class CompanyController extends AbstractController
         }
 
         return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/developers', name: 'app_company_show_developer', methods: ['GET'])]
+    public function indexDev(Request $request, DeveloperRepository $developerRepository, CompanyVisiteDeveloperRepository $companyVisiteDeveloperRepository): Response
+    {
+        $developers = $developerRepository->findAll(); //findBy([])
+        return $this->render('developer/index.html.twig', [
+            'developers' => $developerRepository->findAll(),
+            'serchText' => $request->get('serchText')->getData(),
+            'searchLocation' => $request->get('searchLocation')->getData(),
+            'searchExp' => $request->get('searchExp')->getData(),
+            'searchSalary' => $request->get('searchSalary')->getData(),
+            'favDevs' => $developers,
+            'visitedDevs' => $developers,
+        ]);
+    }
+    
+    #[Route('/developers/show/{id}', name: 'app_company_show_developer', methods: ['GET'])]
+    public function showDev(Developer $developer, CompanyVisiteDeveloperRepository $companyVisiteDeveloperRepository): Response
+    {
+        $companyVisiteDeveloperRepository->recordVisit($this->getUser()->getCompany(), $developer);
+        return $this->render('developer/show.html.twig', [
+            'developer' => $developer,
+        ]);
     }
 }
