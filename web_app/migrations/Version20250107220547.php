@@ -67,6 +67,8 @@ final class Version20250107220547 extends AbstractMigration
 
         $this->GenerationjeuDeDonneesSkills();
         $this->GenerationjeuDeDonneesFicheDePoste();
+        $this->GenerationjeuDeDonneesVisiteDePoste();
+        $this->GenerationjeuDeDonneesVisiteDeDeveloper();
     }
 
 
@@ -285,6 +287,21 @@ final class Version20250107220547 extends AbstractMigration
             );
         }
     }
+
+    private function GenerationjeuDeDonneesVisiteDePoste(): void{
+        $this->addSql("INSERT INTO developer_visite_poste (id, developer_id, poste_id)
+            VALUES (1, 1, 1)");
+        $this->addSql("INSERT INTO developer_visite_poste (id, developer_id, poste_id)
+            VALUES (2, 1, 5)");
+    }
+
+    private function GenerationjeuDeDonneesVisiteDeDeveloper(): void{
+        $this->addSql("INSERT INTO company_visite_developer (id, developer_id, company_id)
+            VALUES (1, 1, 1)");
+        // $this->addSql("INSERT INTO company_visite_developer (id, developer_id, company_id)
+        //     VALUES (2, 1, 5)");
+    }
+
 
     public function down(Schema $schema): void
     {

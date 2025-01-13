@@ -92,7 +92,14 @@
 						<!-- End Messages Nav -->
 
 						<li class="nav-item ">
-							<a class="nav-link nav-icon" href="/search">
+							{% if is_granted('ROLE_DEV') %}
+								<a class="nav-link nav-icon" href="/app/developer/match">
+							{% elseif is_granted('ROLE_COMPANY') %}
+								<a class="nav-link nav-icon" href="/app/company/match">
+							{% else %}
+								<a class="nav-link nav-icon" href="/match">
+							{% endif %}
+							{# <a class="nav-link nav-icon" href="/match"> #}
 								<i class="bi bi-search"></i>
 								{# <span class="badge bg-success badge-number">3</span> #}
 							</a>
@@ -102,17 +109,31 @@
 						<!-- End Messages Nav -->
 
 						<li class="nav-item ">
-							<a class="nav-link nav-icon" href="/app/postes">
+							{% if is_granted('ROLE_DEV') %}
+								<a class="nav-link nav-icon" href="/app/developer/postes">
+							{% elseif is_granted('ROLE_COMPANY') %}
+								<a class="nav-link nav-icon" href="/app/company/postes">
+							{% else %}
+								<a class="nav-link nav-icon" href="/postes">
+							{% endif %}
+							{# <a class="nav-link nav-icon" href="/app/postes"> #}
 								<i class="bi bi-briefcase"></i>
 								{# <span class="badge bg-success badge-number">3</span> #}
 							</a>
 							<!-- End Messages Icon -->
-							Jobs &nbsp;
+							Emplois &nbsp;
 						</li>
 						<!-- End Messages Nav -->
 
 						<li class="nav-item ">
-							<a class="nav-link nav-icon" href="/app/developers">
+							{% if is_granted('ROLE_DEV') %}
+								<a class="nav-link nav-icon" href="/app/developer/developers">
+							{% elseif is_granted('ROLE_COMPANY') %}
+								<a class="nav-link nav-icon" href="/app/company/developers">
+							{% else %}
+								<a class="nav-link nav-icon" href="/developers">
+							{% endif %}
+							{# <a class="nav-link nav-icon" href="/app/developers"> #}
 								<i class="bi bi-person"></i>
 								{# <span class="badge bg-success badge-number">3</span> #}
 							</a>
@@ -121,7 +142,7 @@
 						</li>
 						<!-- End Messages Nav -->
 
-						<li class="nav-item dropdown">
+						{# <li class="nav-item dropdown">
 
 							<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
 								<i class="bi bi-chat-left-text"></i>
@@ -189,10 +210,10 @@
 							</ul>
 							<!-- End Messages Dropdown Items -->
 
-						</li>
+						</li> #}
 						<!-- End Messages Nav -->
 
-						<li class="nav-item dropdown">
+						{# <li class="nav-item dropdown">
 
 							<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
 								<i class="bi bi-bell"></i>
@@ -269,7 +290,7 @@
 							</ul>
 							<!-- End Notification Dropdown Items -->
 
-						</li>
+						</li> #}
 						<!-- End Notification Nav -->
 
 
@@ -279,9 +300,11 @@
 								<img src="{{ asset('theme/app/assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
 								{% if is_granted('ROLE_DEV') %}
 									<span class="d-none d-md-block dropdown-toggle ps-2">{{app.user.developer.firstname}}</span>
-								{% endif %}
-								{% if is_granted('ROLE_COMPANY') %}
+								
+								{% elseif is_granted('ROLE_COMPANY') %}
 									<span class="d-none d-md-block dropdown-toggle ps-2">{{app.user.company.name}}</span>
+								{% else %}
+									<span class="d-none d-md-block dropdown-toggle ps-2">Guest</span>
 								{% endif %}
 							</a>
 							<!-- End Profile Iamge Icon -->
@@ -292,10 +315,12 @@
 										<h6>{{app.user.developer.firstname}}
 											{{app.user.developer.lastname}}</h6>
 										<span>Dévelopeur.se</span>
-									{% endif %}
-									{% if is_granted('ROLE_COMPANY') %}
+									{% elseif is_granted('ROLE_COMPANY') %}
 										<h6>{{app.user.company.name}}</h6>
 										<span>Entreprise</span>
+									{% else %}
+										<h6>Guest</h6>
+										<span>Autres</span>
 									{% endif %}
 								</li>
 								<li>
@@ -304,13 +329,15 @@
 
 								<li>
 									{# <pre>
-																			{{ dump(app.user) }}
-																		</pre> #}
+										{{ dump(app.user) }}
+									</pre> #}
 									{% if is_granted('ROLE_DEV') %}
 										<a class="dropdown-item d-flex align-items-center" href="{{ path('app_developer_profile')}}">
-									{% endif %}
-									{% if is_granted('ROLE_COMPANY') %}
+									
+									{% elseif is_granted('ROLE_COMPANY') %}
 										<a class="dropdown-item d-flex align-items-center" href="{{ path('app_company_profile')}}">
+									{% else %}
+										<a class="dropdown-item d-flex align-items-center" href="#">
 									{% endif %}
 											<i class="bi bi-person"></i>
 											<span>Mon Profil</span>

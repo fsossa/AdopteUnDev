@@ -1,117 +1,111 @@
 {% extends 'layouts/app.html.twig' %}
 
-{% block title %}Développeurs{% endblock %}
+{% block title %}Développeurs
+{% endblock %}
 
 {% block main %}
-<main id="main" class="main">
-    
-    
-    <div class="pagetitle">
-			<h1>Les Développeurs</h1>
-			<nav class="d-flex justify-content-between align-items-center">
-				<ol class="breadcrumb m-0">
-					<li class="breadcrumb-item">
-						<a href="index.html">Home</a>
-					</li>
-					<li class="breadcrumb-item">Liste des développeurs</li>
-					<li class="breadcrumb-item active">Profile</li>
-				</ol>
-			</nav>
-		</div>
-
-
-
-
-
-
-		<body>
+	<main id="main" class="main">
 
 			<div
 				class="d-flex justify-content-between align-items-center mb-4 mt-4">
 				<!-- Barre de recherche -->
 				<div class="d-flex align-items-center flex-grow-1 me-3">
 					<input type="text" class="form-control w-100 me-3" placeholder="Rechercher des développeurs..." aria-label="Search">
-					<select class="form-select me-3" aria-label="Sélectionner un pays">
+					<input type="text" class="form-control w-100 me-3" placeholder="Choisir la localisation..." aria-label="Search">
+					{# <select class="form-select me-3" aria-label="Sélectionner un pays">
 						<option selected>France</option>
 						<option value="1">Autre pays</option>
-					</select>
+					</select> #}
 					{# <button class="btn btn-success">Tous les filtres</button> #}
 				</div>
 
 				<!-- Boutons Créer une alerte et Trier par pertinence -->
 				{# <div class="d-flex align-items-center ms-3">
-					<a class="btn btn-primary" href="{{ path('app_poste_new') }}">Créer une fiche de poste</a>
-					 <button class="btn btn-secondary">Trier par pertinence</button> 
-				</div> #}
+                    <a class="btn btn-primary" href="{{ path('app_poste_new') }}">Créer une fiche de poste</a>
+                        <button class="btn btn-secondary">Trier par pertinence</button> 
+                </div> #}
 			</div>
 
 
-			<div class="container my-5">
+            <div class="container my-5">
 				<div class="row d-flex flex-wrap">
-					{% for poste in postes %}
-					<div class="col-md-12 mb-12">
-					{% include "layouts/components/resume.html.twig" %}
+					<div class="col-md-3 mb-3">
+					{% include "layouts/components/advanced_search.html.twig" %}
 					</div>
+					<div class="col-md-9 mb-9 row">
+						{% for developer in developers %}
+						<div class="col-md-4 mb-4">
+							{% include "layouts/components/resume.html.twig" %}
+						</div>
+						{% else %}
+						<div class="col-12">
+							<p class="text-center">Aucun dévelopeur trouvé</p>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			{# <div class="container my-5">
+				<div class="row d-flex flex-wrap">
+					{% for developer in developers %}
+						<div class="col-md-12 mb-12">
+							{% include "layouts/components/resume.html.twig" %}
+						</div>
 					{% else %}
 						<div class="col-12">
-							<p class="text-center">Aucune offre trouvée</p>
+							<p class="text-center">Aucun dévelopeur trouvé</p>
 						</div>
 					{% endfor %}
 				</div>
-			</div>
+			</div> #}
 
 
 		</body>
 
 
+		{# <table class="table">
+		        <thead>
+		            <tr>
+		                <th>Id</th>
+		                <th>Firstname</th>
+		                <th>Lastname</th>
+		                <th>Birthday</th>
+		                <th>Gender</th>
+		                <th>Experiences</th>
+		                <th>Salary</th>
+		                <th>Biography</th>
+		                <th>Location</th>
+		                <th>Avatar</th>
+		                <th>actions</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		        {% for developer in developers %}
+		            <tr>
+		                <td>{{ developer.id }}</td>
+		                <td>{{ developer.firstname }}</td>
+		                <td>{{ developer.lastname }}</td>
+		                <td>{{ developer.birthday ? developer.birthday|date('Y-m-d') : '' }}</td>
+		                <td>{{ developer.gender }}</td>
+		                <td>{{ developer.experiences }}</td>
+		                <td>{{ developer.salary }}</td>
+		                <td>{{ developer.biography }}</td>
+		                <td>{{ developer.location }}</td>
+		                <td>{{ developer.avatar }}</td>
+		                <td>
+		                    <a href="{{ path('app_home_show', {'id': developer.id}) }}">show</a>
+		                    <a href="{{ path('app_home_edit', {'id': developer.id}) }}">edit</a>
+		                </td>
+		            </tr>
+		        {% else %}
+		            <tr>
+		                <td colspan="11">no records found</td>
+		            </tr>
+		        {% endfor %}
+		        </tbody>
+		    </table> #}
 
+		{# <a href="{{ path('app_home_new') }}">Create new</a> #}
 
-
-
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Birthday</th>
-                <th>Gender</th>
-                <th>Experiences</th>
-                <th>Salary</th>
-                <th>Biography</th>
-                <th>Location</th>
-                <th>Avatar</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for developer in developers %}
-            <tr>
-                <td>{{ developer.id }}</td>
-                <td>{{ developer.firstname }}</td>
-                <td>{{ developer.lastname }}</td>
-                <td>{{ developer.birthday ? developer.birthday|date('Y-m-d') : '' }}</td>
-                <td>{{ developer.gender }}</td>
-                <td>{{ developer.experiences }}</td>
-                <td>{{ developer.salary }}</td>
-                <td>{{ developer.biography }}</td>
-                <td>{{ developer.location }}</td>
-                <td>{{ developer.avatar }}</td>
-                <td>
-                    <a href="{{ path('app_home_show', {'id': developer.id}) }}">show</a>
-                    <a href="{{ path('app_home_edit', {'id': developer.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_home_new') }}">Create new</a>
-
-    </main>
+	</main>
 {% endblock %}

@@ -1,0 +1,57 @@
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">Recherche avancée</h5>
+
+		<!-- Advanced Form Elements -->
+		<form>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                    <label class="form-check-label" for="gridRadios1">
+                        Récents
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                    <label class="form-check-label" for="gridRadios2">
+                        Plus visités
+                    </label>
+                </div>
+            </div>
+
+			<div
+				class="row mb-3">
+				{# <label class="col-sm-2 col-form-label">Floating labels</label> #}
+				<div class="col-sm-10">
+					<div class="form-floating mb-3">
+						<input type="number" class="form-control" id="floatingInput" placeholder="">
+						<label for="floatingInput">Experience (Ans)</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="number" class="form-control" id="salary" placeholder="">
+						<label for="salary">Salaire min (€)</label>
+					</div>
+					{# <div class="col-sm-10">
+										    <div>
+					                            <label for="customRange1" class="form-label">Salaire min (£)</label>
+					                            <input type="range" class="form-range" id="customRange1" value="0" min="0" max="100000">
+					                        </div>
+					                    </div> #}
+					<div class="form-floating mb-3">
+						<select
+							class="form-select" id="floatingSelect" aria-label="Floating label select example">
+							{# <option selected>Compétences</option> #}
+							{% for skill in skills %}
+								<option value="{{skill.id}}">{{skill.name}}</option>
+							{% endfor %}
+						</select>
+						<label for="floatingSelect">Compétences</label>
+					</div>
+				</div>
+			</div>
+
+		</form>
+		<!-- End General Form Elements -->
+
+	</div>
+</div>

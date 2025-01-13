@@ -118,10 +118,10 @@ class CompanyVisiteDeveloperRepository extends ServiceEntityRepository
             LEFT JOIN company_visite_developer v ON v.developer_id = d.id
             GROUP BY d.id
             ORDER BY visit_count DESC
-            LIMIT :limite";
+            LIMIT $limite";
         
         $conn = $this->getEntityManager()->getConnection();
-        $results = $conn->executeQuery($sql, ['limite' => $limite]);
+        $results = $conn->executeQuery($sql);
         return $results->fetchAllAssociative();
     }
 
@@ -135,11 +135,14 @@ class CompanyVisiteDeveloperRepository extends ServiceEntityRepository
         //     ->setMaxResults($limite)
         //     ->getQuery()
         //     ->getResult();
-        $sql = "SELECT * FROM developer ORDER BY id DESC 
-                LIMIT :limite";
+        $sql = "SELECT d.*, COUNT(v.id) AS visit_count FROM developer d
+                LEFT JOIN company_visite_developer v ON v.developer_id = d.id
+                GROUP BY d.id
+                ORDER BY d.id DESC
+                LIMIT $limite";
         
         $conn = $this->getEntityManager()->getConnection();
-        $results = $conn->executeQuery($sql, ['limite' => $limite]);
+        $results = $conn->executeQuery($sql);
         return $results->fetchAllAssociative();
     }
     // public function addView(CompanyVisiteDeveloper $view ,Developer $dev): void
