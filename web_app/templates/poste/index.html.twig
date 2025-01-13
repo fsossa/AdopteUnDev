@@ -8,7 +8,7 @@
 
 	<main id="main" class="main">
 
-		<div class="pagetitle">
+		{# <div class="pagetitle">
 			<h1>Fiches de poste</h1>
 			<nav class="d-flex justify-content-between align-items-center">
 				<ol class="breadcrumb m-0">
@@ -19,47 +19,55 @@
 					<li class="breadcrumb-item active">Profile</li>
 				</ol>
 			</nav>
-		</div>
+		</div> #}
 
 
-		<body>
+		{# <body> #}
 
 			<div
 				class="d-flex justify-content-between align-items-center mb-4 mt-4">
 				<!-- Barre de recherche -->
 				<div class="d-flex align-items-center flex-grow-1 me-3">
 					<input type="text" class="form-control w-100 me-3" placeholder="Rechercher des offres..." aria-label="Search">
-					<select class="form-select me-3" aria-label="Sélectionner un pays">
+					<input type="text" class="form-control w-100 me-3" placeholder="Saisissez la localisation" aria-label="location">
+					{# <select class="form-select me-3" aria-label="Sélectionner un pays">
 						<option selected>France</option>
 						<option value="1">Autre pays</option>
-					</select>
+					</select> #}
 					{# <button class="btn btn-success">Tous les filtres</button> #}
 				</div>
 
 				<!-- Boutons Créer une alerte et Trier par pertinence -->
+				{% if is_granted('ROLE_COMPANY') %}
 				<div class="d-flex align-items-center ms-3">
 					<a class="btn btn-primary" href="{{ path('app_poste_new') }}">Créer une fiche de poste</a>
 					{# <button class="btn btn-secondary">Trier par pertinence</button> #}
 				</div>
+				{% endif %}
 			</div>
 
 
 			<div class="container my-5">
 				<div class="row d-flex flex-wrap">
-					{% for poste in postes %}
-					<div class="col-md-12 mb-12">
-					{% include "layouts/components/posteCard.html.twig" %}
+					<div class="col-md-3 mb-3">
+					{% include "layouts/components/advanced_search.html.twig" %}
 					</div>
-					{% else %}
+					<div class="col-md-9 mb-9 row">
+						{% for poste in postes %}
+						<div class="col-md-4 mb-4">
+							{% include "layouts/components/posteCard.html.twig" %}
+						</div>
+						{% else %}
 						<div class="col-12">
 							<p class="text-center">Aucune offre trouvée</p>
 						</div>
-					{% endfor %}
+						{% endfor %}
+					</div>
 				</div>
 			</div>
 
 
-		</body>
+		{# </body> #}
 
 
 	</main>

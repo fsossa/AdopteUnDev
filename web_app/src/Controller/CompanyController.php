@@ -5,8 +5,12 @@ namespace App\Controller;
 use App\Entity\Company;
 use App\Entity\Developer;
 use App\Form\CompanyType;
+use App\Repository\CompanyFavDeveloperRepository;
 use App\Repository\CompanyRepository;
+use App\Repository\CompanyVisiteDeveloperRepository;
+use App\Repository\DeveloperRepository;
 use App\Repository\PosteRepository;
+use App\Repository\SkillRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,13 +21,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CompanyController extends AbstractController
 {
     #[Route(name: 'app_company_home', methods: ['GET'])]
-    public function index(CompanyRepository $companyRepository, PosteRepository $posteRepository): Response
+    public function index(CompanyRepository $companyRepository, PosteRepository $posteRepository, CompanyVisiteDeveloperRepository $companyVisiteDeveloperRepository): Response
     {
+        // dd($companyVisiteDeveloperRepository->findAll());
         return $this->render('company/home.html.twig', [
-            'companies' => $companyRepository->findAll(),
-            // 'latestVisiteAndLike' => $companyRepository->findLatestVisiteAndLike(5),
-            // 'bestPostes' => $posteRepository->findBest(3),
-            // 'latestPostes' => $posteRepository->findLatest(3),
+            // 'companies' => $companyRepository->findAll(),
+            'lastPostes' => $posteRepository->findBy(['company' => $this->getUser()->getCompany()], ['id' =>'DESC'], 5),
+            'bestDevs' => $companyVisiteDeveloperRepository->findTopMostVisitedDevelopers(3),
+            'lastDevs' => $companyVisiteDeveloperRepository->findLastDevelopers(3),
         ]);
     }
 
@@ -85,8 +90,6 @@ final class CompanyController extends AbstractController
 
             return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
         }
-
-
         return $this->render('company/edit.html.twig', [
             'company' => $company,
             'form' => $form,
@@ -103,4 +106,49 @@ final class CompanyController extends AbstractController
 
         return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
     }
+    
+    #[Route('/developers', name: 'app_company_index_developer', methods: ['GET'])]
+    public function indexDev(Request $request, DeveloperRepository $developerRepository, SkillRepository $skillRepository): Response
+    {
+        $developers = $developerRepository->findAll(); //findBy([])
+        return $this->render('developer/index.html.twig', [
+            'developers' => $developerRepository->findAll(),
+            'searchReq' => $request,
+            'favDevs' => $developers,
+            'visitedDevs' => $developers,
+            'skills' => $skillRepository->findAll(),
+        ]);
+    }
+    
+    #[Route('/developers/show/{id}', name: 'app_company_show_developer', methods: ['GET'])]
+    public function showDev(Developer $developer, CompanyVisiteDeveloperRepository $companyVisiteDeveloperRepository): Response
+    {
+        $companyVisiteDeveloperRepository->recordVisit($this->getUser()->getCompany(), $developer);
+        return $this->render('developer/show.html.twig', [
+            'developer' => $developer,
+        ]);
+    }
+
+    
+    #[Route('/postes', name: 'app_company_show_poste', methods: ['GET', 'POST'])]
+    public function indexPoste(Request $request, PosteRepository $posteRepository, SkillRepository $skillRepository): Response
+    {
+        $postes = $posteRepository->findAll(); //findBy([])
+        return $this->render('poste/index.html.twig', [
+            'postes' => $posteRepository->findAll(),
+            'searchReq' => $request,
+            'favPostes' => $postes,
+            'visitedPostes' => $postes,
+            'skills' => $skillRepository->findAll(),
+        ]);
+    }
+    
+    // #[Route('/postes/show/{id}', name: 'show_poste', methods: ['GET'])]
+    // public function showPoste(Developer $developer, CompanyVisiteDeveloperRepository $companyVisiteDeveloperRepository): Response
+    // {
+    //     $companyVisiteDeveloperRepository->recordVisit($this->getUser()->getCompany(), $developer);
+    //     return $this->render('developer/show.html.twig', [
+    //         'developer' => $developer,
+    //     ]);
+    // }
 }

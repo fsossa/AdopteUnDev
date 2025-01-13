@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Developer;
+use App\Entity\Poste;
 use App\Form\DeveloperType;
+use App\Repository\CompanyVisiteDeveloperRepository;
 use App\Repository\DeveloperRepository;
+use App\Repository\DeveloperVisitePosteRepository;
 use App\Repository\PosteRepository;
+use App\Repository\SkillRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,13 +20,15 @@ use Symfony\Component\Routing\Attribute\Route;
 final class DeveloperController extends AbstractController
 {
     #[Route(name: 'app_developer_home', methods: ['GET'])]
-    public function index(DeveloperRepository $developerRepository, PosteRepository $posteRepository): Response
+    public function index(DeveloperVisitePosteRepository $developerVisitePosteRepository, PosteRepository $posteRepository, CompanyVisiteDeveloperRepository $companyVisiteDeveloperRepository): Response
     {
+        // dd($companyVisiteDeveloperRepository->findVisitsForDeveloper($this->getUser()->getDeveloper(), 5));
         return $this->render('developer/home.html.twig', [
-            'developers' => $developerRepository->findAll(),
-            'latestVisiteAndLike' => $developerRepository->findAll(), //findLatestVisiteAndLike(5),
-            'bestPostes' => $posteRepository->findBest(3),
-            'latestPostes' => $posteRepository->findBest(3), //findLatest(3),
+            // 'developers' => $developerRepository->findAll(),
+            'lastVisites' => $companyVisiteDeveloperRepository->findVisitsForDeveloper($this->getUser()->getDeveloper(), 5),
+            'bestPostes' => $developerVisitePosteRepository->findTopMostVisitedPostes(3),
+            'latestPostes' => $developerVisitePosteRepository->findLastPostes(3),
+            // 'latestPostes' => $posteRepository->findLatest(3),
         ]);
     }
 
@@ -46,13 +52,6 @@ final class DeveloperController extends AbstractController
         ]);
     }
 
-    // #[Route('/{id}', name: 'app_developer_show', methods: ['GET'])]
-    // public function show(Developer $developer): Response
-    // {
-    //     return $this->render('developer/show.html.twig', [
-    //         'developer' => $developer,
-    //     ]);
-    // }
 
     #[Route('/profile', name: 'app_developer_profile', methods: ['GET', 'POST'])]
     public function profile(Request $request, EntityManagerInterface $entityManager): Response
@@ -79,10 +78,18 @@ final class DeveloperController extends AbstractController
             return $this->redirectToRoute('app_developer_profile', [], Response::HTTP_SEE_OTHER);
         }
 
-
         return $this->render('developer/manage/show.html.twig', [
             'developer' => $developer,
             'form' => $form,
+        ]);
+    }
+    
+    #[Route('/show/{id}', name: 'app_developer_show', methods: ['GET'])]
+    public function show(Developer $developer, CompanyVisiteDeveloperRepository $companyVisiteDeveloperRepository): Response
+    {
+        $companyVisiteDeveloperRepository->recordVisit($this->getUser()->getCompany(), $developer);
+        return $this->render('developer/show.html.twig', [
+            'developer' => $developer,
         ]);
     }
 
@@ -133,5 +140,40 @@ final class DeveloperController extends AbstractController
         }
 
         return $this->redirectToRoute('app_developer_index', [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/postes', name: 'app_developer_index_poste', methods: ['GET', 'POST'])]
+    public function indexPoste(Request $request, PosteRepository $posteRepository, DeveloperVisitePosteRepository $developerVisitePosteRepository, SkillRepository $skillRepository): Response
+    {
+        $postes = $posteRepository->findAll(); //findBy([])
+        return $this->render('poste/index.html.twig', [
+            'postes' => $posteRepository->findAll(),
+            'searchReq' => $request,
+            'favPostes' => $postes,
+            'visitedPostes' => $postes,
+            'skills' => $skillRepository->findAll(),
+        ]);
+    }
+    
+    #[Route('/postes/show/{id}', name: 'app_developer_show_poste', methods: ['GET'])]
+    public function showPoste(Poste $poste, DeveloperVisitePosteRepository $developerVisitePosteRepository): Response
+    {
+        $developerVisitePosteRepository->addPostVisit($this->getUser()->getCompany(), $poste);
+        return $this->render('poste/show.html.twig', [
+            'poste' => $poste,
+        ]);
+    }
+
+    #[Route('/developers', name: 'app_developer_index_developer', methods: ['GET', 'POST'])]
+    public function indexDev(Request $request, DeveloperRepository $developerRepository): Response
+    {
+        $developers = $developerRepository->findAll(); //findBy([])
+        return $this->render('developer/index.html.twig', [
+            'developers' => $developerRepository->findAll(),
+            'searchReq' => $request,
+            'favDevs' => $developers,
+            'visitedDevs' => $developers,
+            'skills' => $skillRepository->findAll(),
+        ]);
     }
 }
