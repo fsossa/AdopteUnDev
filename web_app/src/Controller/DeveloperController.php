@@ -69,9 +69,9 @@ final class DeveloperController extends AbstractController
                     $this->getParameter('avatars_directory'),
                     $filename
                 );
-            }
                 // Enregistrer le nom du fichier dans l'entité
                 $developer->setAvatar($filename);
+            }
                 
             $entityManager->flush();
 
@@ -165,7 +165,7 @@ final class DeveloperController extends AbstractController
     }
 
     #[Route('/developers', name: 'app_developer_index_developer', methods: ['GET', 'POST'])]
-    public function indexDev(Request $request, DeveloperRepository $developerRepository): Response
+    public function indexDev(Request $request, DeveloperRepository $developerRepository, SkillRepository $skillRepository): Response
     {
         $developers = $developerRepository->findAll(); //findBy([])
         return $this->render('developer/index.html.twig', [
